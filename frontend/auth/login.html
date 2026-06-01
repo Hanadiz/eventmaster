@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#4CAF50">
+    <title>Sign In – EventMaster UG</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4CAF50;
+            --primary-dark: #388E3C;
+            --primary-light: #E8F5E9;
+            --danger: #F44336;
+            --danger-light: #FFEBEE;
+            --warning: #FF9800;
+            --info: #2196F3;
+            --bg: #F5F7FA;
+            --surface: #FFFFFF;
+            --text: #1A1A2E;
+            --text-secondary: #6B7280;
+            --text-muted: #9CA3AF;
+            --border: #E5E7EB;
+            --shadow-sm: 0 2px 8px rgba(0,0,0,0.06);
+            --shadow-md: 0 4px 20px rgba(0,0,0,0.1);
+            --shadow-lg: 0 10px 40px rgba(0,0,0,0.15);
+            --shadow-xl: 0 20px 60px rgba(0,0,0,0.2);
+            --radius-sm: 8px;
+            --radius: 12px;
+            --radius-lg: 16px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+        }
+        
+        /* Auth Container */
+        .auth-container {
+            display: flex;
+            width: 100%;
+            min-height: 100vh;
+        }
+        
+        /* Branding Panel */
+        .auth-branding {
+            flex: 1;
+            background: linear-gradient(135deg, #1A1A2E 0%, #16213E 50%, #0F3460 100%);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 3rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .auth-branding::before {
+            content: '';
+            position: absolute;
+            top: -30%;
+            right: -20%;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(76,175,80,0.1), transparent);
+            border-radius: 50%;
+        }
+        
+        .branding-content {
+            position: relative;
+            z-index: 1;
+            max-width: 450px;
+        }
+        
+        .branding-content h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+        
+        .branding-content > p {
+            color: rgba(255,255,255,0.7);
+            font-size: 1.05rem;
+            line-height: 1.6;
+            margin-bottom: 2.5rem;
+        }
+        
+        .brand-features {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-bottom: 3rem;
+        }
+        
+        .brand-feature {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 0.95rem;
+            color: rgba(255,255,255,0.8);
+        }
+        
+        .feature-icon {
+            width: 36px;
+            height: 36px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        
+        .branding-footer {
+            font-size: 0.8rem;
+            color: rgba(255,255,255,0.4);
+        }
+        
+        /* Form Panel */
+        .auth-form-panel {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            background: var(--bg);
+        }
+        
+        .form-wrapper {
+            width: 100%;
+            max-width: 440px;
+        }
+        
+        .form-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .form-header .logo-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+            color: var(--text);
+            font-weight: 700;
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-header h2 {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .form-header p {
+            color: var(--text-secondary);
+        }
+        
+        .form-header a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        /* Social Login */
+        .social-login {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .social-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.7rem;
+            border: 1.5px solid var(--border);
+            border-radius: var(--radius-sm);
+            background: white;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: var(--transition);
+        }
+        
+        .social-btn:hover {
+            border-color: var(--primary);
+            background: #fafafa;
+        }
+        
+        .divider {
+            text-align: center;
+            position: relative;
+            margin-bottom: 1.5rem;
+        }
+        
+        .divider::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: var(--border);
+        }
+        
+        .divider span {
+            position: relative;
+            background: var(--bg);
+            padding: 0 1rem;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+        
+        /* Form Elements */
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+        
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            font-size: 0.85rem;
+            margin-bottom: 0.35rem;
+        }
+        
+        .input-wrapper {
+            position: relative;
+        }
+        
+        .input-wrapper input {
+            width: 100%;
+            padding: 0.75rem 1rem 0.75rem 2.75rem;
+            border: 1.5px solid var(--border);
+            border-radius: var(--radius-sm);
+            font-size: 0.95rem;
+            font-family: inherit;
+            transition: var(--transition);
+            background: white;
+        }
+        
+        .input-wrapper input:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(76,175,80,0.1);
+        }
+        
+        .input-wrapper .input-icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            font-size: 1rem;
+        }
+        
+        .toggle-password {
+            position: absolute;
+            right: 0.75rem;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--text-muted);
+            font-size: 1rem;
+        }
+        
+        .form-options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.25rem;
+        }
+        
+        .checkbox-label {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.85rem;
+            cursor: pointer;
+        }
+        
+        .checkbox-label input {
+            width: 16px;
+            height: 16px;
+            accent-color: var(--primary);
+        }
+        
+        .forgot-link {
+            font-size: 0.85rem;
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .forgot-link:hover { text-decoration: underline; }
+        
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: var(--radius-sm);
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            font-size: 0.95rem;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            font-family: inherit;
+            width: 100%;
+        }
+        
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 4px 15px rgba(76,175,80,0.3);
+        }
+        
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-1px);
+            box-shadow: 0 8px 25px rgba(76,175,80,0.4);
+        }
+        
+        .btn-primary:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+        
+        .error-message {
+            background: var(--danger-light);
+            color: #c62828;
+            padding: 0.75rem 1rem;
+            border-radius: var(--radius-sm);
+            font-size: 0.85rem;
+            margin-top: 0.75rem;
+            border-left: 3px solid var(--danger);
+            display: none;
+        }
+        
+        .error-message.show { display: block; }
+        
+        /* Demo Credentials */
+        .demo-section {
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border);
+        }
+        
+        .demo-title {
+            font-weight: 600;
+            font-size: 0.85rem;
+            margin-bottom: 0.75rem;
+            text-align: center;
+            color: var(--text-secondary);
+        }
+        
+        .demo-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        
+        .demo-btn {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.6rem 1rem;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            background: white;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: var(--transition);
+            text-align: left;
+            font-family: inherit;
+        }
+        
+        .demo-btn:hover {
+            border-color: var(--primary);
+            background: var(--primary-light);
+        }
+        
+        .demo-role {
+            font-weight: 600;
+            color: var(--primary);
+        }
+        
+        .demo-email {
+            color: var(--text-muted);
+            font-size: 0.78rem;
+        }
+        
+        @media (max-width: 900px) {
+            .auth-branding { display: none; }
+            .auth-form-panel { padding: 1.5rem; }
+        }
+        
+        @media (max-width: 480px) {
+            .social-login { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="auth-container">
+        <!-- Branding Side -->
+        <div class="auth-branding">
+            <div class="branding-content">
+                <h1>Welcome Back!</h1>
+                <p>Sign in to manage your events, track sales, and check in attendees across Uganda.</p>
+                
+                <div class="brand-features">
+                    <div class="brand-feature">
+                        <span class="feature-icon">📅</span>
+                        <span>Manage multiple events</span>
+                    </div>
+                    <div class="brand-feature">
+                        <span class="feature-icon">💰</span>
+                        <span>Track sales & revenue</span>
+                    </div>
+                    <div class="brand-feature">
+                        <span class="feature-icon">📱</span>
+                        <span>Scan tickets at the door</span>
+                    </div>
+                    <div class="brand-feature">
+                        <span class="feature-icon">🏷️</span>
+                        <span>Create promo codes</span>
+                    </div>
+                </div>
+                
+                <p class="branding-footer">© 2026 EventMaster Uganda. All rights reserved.</p>
+            </div>
+        </div>
+        
+        <!-- Form Side -->
+        <div class="auth-form-panel">
+            <div class="form-wrapper">
+                <div class="form-header">
+                    <a href="../public/index.html" class="logo-link">
+                        <span>🎫</span> EventMaster UG
+                    </a>
+                    <h2>Sign In</h2>
+                    <p>Don't have an account? <a href="register.html">Create one</a></p>
+                </div>
+                
+                <!-- Social Login -->
+                <div class="social-login">
+                    <button class="social-btn">
+                        <i class="fab fa-google"></i> Google
+                    </button>
+                    <button class="social-btn">
+                        <i class="fas fa-phone"></i> Phone
+                    </button>
+                </div>
+                
+                <div class="divider"><span>or sign in with email</span></div>
+                
+                <!-- Login Form -->
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label>Email Address</label>
+                        <div class="input-wrapper">
+                            <span class="input-icon">✉️</span>
+                            <input type="email" id="email" placeholder="you@example.com" required autocomplete="email">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Password</label>
+                        <div class="input-wrapper">
+                            <span class="input-icon">🔒</span>
+                            <input type="password" id="password" placeholder="Enter your password" required autocomplete="current-password">
+                            <button type="button" class="toggle-password" id="togglePassword">👁️</button>
+                        </div>
+                    </div>
+                    
+                    <div class="form-options">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="rememberMe">
+                            <span>Remember me</span>
+                        </label>
+                        <a href="forgot-password.html" class="forgot-link">Forgot password?</a>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary" id="loginBtn">
+                        <i class="fas fa-sign-in-alt"></i> Sign In
+                    </button>
+                    
+                    <div class="error-message" id="loginError"></div>
+                </form>
+                
+                <!-- Demo Accounts -->
+                <div class="demo-section">
+                    <p class="demo-title">🔑 Quick Demo Access</p>
+                    <div class="demo-buttons">
+                        <button class="demo-btn" data-email="admin@eventmaster.ug" data-password="demo123">
+                            <span class="demo-role">👑 Admin</span>
+                            <span class="demo-email">admin@eventmaster.ug</span>
+                        </button>
+                        <button class="demo-btn" data-email="manager@eventmaster.ug" data-password="demo123">
+                            <span class="demo-role">📅 Manager</span>
+                            <span class="demo-email">manager@eventmaster.ug</span>
+                        </button>
+                        <button class="demo-btn" data-email="staff@eventmaster.ug" data-password="demo123">
+                            <span class="demo-role">📱 Staff</span>
+                            <span class="demo-email">staff@eventmaster.ug</span>
+                        </button>
+                        <button class="demo-btn" data-email="cashier@eventmaster.ug" data-password="demo123">
+                            <span class="demo-role">💳 Cashier</span>
+                            <span class="demo-email">cashier@eventmaster.ug</span>
+                        </button>
+                        <button class="demo-btn" data-email="customer@email.ug" data-password="demo123">
+                            <span class="demo-role">🎫 Customer</span>
+                            <span class="demo-email">customer@email.ug</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Toggle password visibility
+        document.getElementById('togglePassword').addEventListener('click', function() {
+            const passwordInput = document.getElementById('password');
+            const type = passwordInput.type === 'password' ? 'text' : 'password';
+            passwordInput.type = type;
+            this.textContent = type === 'password' ? '👁️' : '🙈';
+        });
+        
+        // Form submission
+        document.getElementById('loginForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value.trim();
+            const rememberMe = document.getElementById('rememberMe').checked;
+            const errorEl = document.getElementById('loginError');
+            const btn = document.getElementById('loginBtn');
+            
+            if (!email || !password) {
+                showError('Please enter email and password');
+                return;
+            }
+            
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Signing in...';
+            
+            // Simulate API call
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            
+            // Demo user validation
+            const users = {
+                'admin@eventmaster.ug': { role: 'admin', name: 'System Admin', redirect: '../dashboard/admin/index.html' },
+                'manager@eventmaster.ug': { role: 'manager', name: 'Brenda Auma', redirect: '../dashboard/manager/index.html' },
+                'staff@eventmaster.ug': { role: 'staff', name: 'David Ssemwogerere', redirect: '../dashboard/staff/index.html' },
+                'cashier@eventmaster.ug': { role: 'cashier', name: 'Grace Akello', redirect: '../dashboard/cashier/index.html' },
+                'customer@email.ug': { role: 'customer', name: 'Prossy Nakamya', redirect: '../dashboard/customer/index.html' },
+            };
+            
+            const user = users[email];
+            
+            if (user && password === 'demo123') {
+                const userData = {
+                    email,
+                    role: user.role,
+                    name: user.name,
+                    loggedIn: true,
+                    timestamp: new Date().toISOString()
+                };
+                
+                if (rememberMe) {
+                    localStorage.setItem('eventmaster_user', JSON.stringify(userData));
+                } else {
+                    sessionStorage.setItem('eventmaster_user', JSON.stringify(userData));
+                }
+                
+                window.location.href = user.redirect;
+            } else {
+                showError('Invalid email or password. Try demo accounts below.');
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Sign In';
+            }
+        });
+        
+        // Demo account buttons
+        document.querySelectorAll('.demo-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.getElementById('email').value = this.dataset.email;
+                document.getElementById('password').value = this.dataset.password;
+                document.getElementById('loginForm').dispatchEvent(new Event('submit'));
+            });
+        });
+        
+        function showError(message) {
+            const errorEl = document.getElementById('loginError');
+            errorEl.textContent = message;
+            errorEl.classList.add('show');
+            setTimeout(() => errorEl.classList.remove('show'), 5000);
+        }
+    </script>
+</body>
+</html>
