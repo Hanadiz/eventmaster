@@ -1,0 +1,1179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Discover and book tickets for the best events across Uganda - concerts, conferences, festivals and more">
+    <meta name="theme-color" content="#4CAF50">
+    <link rel="manifest" href="../manifest.json">
+    <title>Browse Events - EventMaster UG</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4CAF50;
+            --primary-dark: #388E3C;
+            --primary-light: #E8F5E9;
+            --primary-lighter: #F1F8E9;
+            --danger: #F44336;
+            --warning: #FF9800;
+            --warning-light: #FFF3E0;
+            --info: #2196F3;
+            --info-light: #E3F2FD;
+            --vip: #9C27B0;
+            --vvip: #FF6F00;
+            --bg: #F5F7FA;
+            --surface: #FFFFFF;
+            --text: #1A1A2E;
+            --text-secondary: #6B7280;
+            --text-muted: #9CA3AF;
+            --border: #E5E7EB;
+            --border-light: #F3F4F6;
+            --shadow-xs: 0 1px 2px rgba(0,0,0,0.04);
+            --shadow-sm: 0 2px 8px rgba(0,0,0,0.06);
+            --shadow-md: 0 4px 20px rgba(0,0,0,0.1);
+            --shadow-lg: 0 10px 40px rgba(0,0,0,0.15);
+            --radius-sm: 8px;
+            --radius: 12px;
+            --radius-lg: 16px;
+            --radius-xl: 20px;
+            --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+        
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; }
+        
+        /* Header */
+        .header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            transition: var(--transition);
+        }
+        
+        .header.scrolled { box-shadow: var(--shadow-md); }
+        
+        .header-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.75rem 0;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+            color: var(--text);
+            font-weight: 800;
+            font-size: 1.2rem;
+        }
+        
+        .logo-icon { font-size: 1.5rem; }
+        
+        .nav-links { display: flex; align-items: center; gap: 1.5rem; }
+        
+        .nav-link {
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: var(--transition);
+            position: relative;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: var(--transition);
+        }
+        
+        .nav-link:hover, .nav-link.active { color: var(--primary); }
+        .nav-link:hover::after, .nav-link.active::after { width: 100%; }
+        
+        .btn {
+            padding: 0.55rem 1.25rem;
+            border-radius: 100px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            font-size: 0.9rem;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+            font-family: inherit;
+        }
+        
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 4px 15px rgba(76,175,80,0.3);
+        }
+        
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-1px);
+            box-shadow: 0 8px 25px rgba(76,175,80,0.4);
+        }
+        
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--border);
+            color: var(--text);
+        }
+        
+        .btn-outline:hover { border-color: var(--primary); color: var(--primary); }
+        
+        .btn-sm { padding: 0.4rem 0.9rem; font-size: 0.8rem; }
+        
+        .btn-lg { padding: 0.8rem 1.8rem; font-size: 1rem; }
+        
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text);
+        }
+        
+        /* Search Hero */
+        .search-hero {
+            background: linear-gradient(135deg, #1A1A2E, #16213E);
+            color: white;
+            padding: 2.5rem 0;
+            text-align: center;
+        }
+        
+        .search-hero h1 {
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+        }
+        
+        .search-hero > .container > p {
+            color: rgba(255,255,255,0.7);
+            margin-bottom: 1.5rem;
+            font-size: 1rem;
+        }
+        
+        .search-bar {
+            display: flex;
+            gap: 0.75rem;
+            max-width: 800px;
+            margin: 0 auto;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .search-bar input {
+            flex: 1;
+            min-width: 200px;
+            padding: 0.75rem 1.25rem;
+            border: none;
+            border-radius: 100px;
+            font-size: 0.95rem;
+            outline: none;
+        }
+        
+        .search-bar select {
+            padding: 0.75rem 1.25rem;
+            border: none;
+            border-radius: 100px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            background: white;
+            min-width: 150px;
+        }
+        
+        /* Category Pills */
+        .category-pills-section {
+            background: white;
+            border-bottom: 1px solid var(--border);
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+        
+        .category-pills {
+            display: flex;
+            gap: 0;
+            padding: 0;
+        }
+        
+        .category-pill {
+            padding: 0.7rem 1.1rem;
+            border: none;
+            background: none;
+            cursor: pointer;
+            font-size: 0.82rem;
+            font-weight: 500;
+            white-space: nowrap;
+            color: var(--text-secondary);
+            border-bottom: 3px solid transparent;
+            transition: var(--transition);
+            font-family: inherit;
+        }
+        
+        .category-pill:hover { color: var(--primary); background: var(--primary-lighter); }
+        .category-pill.active { color: var(--primary); border-bottom-color: var(--primary); font-weight: 600; }
+        
+        /* Results Header */
+        .results-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 0;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        
+        .results-count {
+            font-weight: 600;
+            color: var(--text-secondary);
+        }
+        
+        .results-count span {
+            color: var(--primary);
+            font-weight: 700;
+        }
+        
+        .results-sort {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .results-sort label {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+        
+        .results-sort select {
+            padding: 0.5rem 0.75rem;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-size: 0.85rem;
+            background: white;
+            cursor: pointer;
+        }
+        
+        .view-toggle {
+            display: flex;
+            gap: 0.25rem;
+            background: var(--surface);
+            border-radius: 6px;
+            padding: 3px;
+            box-shadow: var(--shadow-xs);
+        }
+        
+        .view-btn {
+            padding: 0.4rem 0.6rem;
+            border: none;
+            background: transparent;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            color: var(--text-secondary);
+            transition: var(--transition);
+        }
+        
+        .view-btn.active { background: var(--primary); color: white; }
+        
+        /* Events Grid */
+        .events-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 1.5rem;
+            padding-bottom: 2rem;
+        }
+        
+        .events-grid.list-view { grid-template-columns: 1fr; }
+        
+        .event-card {
+            background: var(--surface);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+            cursor: pointer;
+        }
+        
+        .event-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .event-card-image {
+            position: relative;
+            height: 200px;
+            overflow: hidden;
+        }
+        
+        .event-card-image .bg {
+            width: 100%;
+            height: 100%;
+            transition: transform 0.5s;
+        }
+        
+        .event-card:hover .event-card-image .bg { transform: scale(1.05); }
+        
+        .event-card-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 1rem;
+            background: linear-gradient(transparent, rgba(0,0,0,0.7));
+        }
+        
+        .event-card-category {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border-radius: 100px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        
+        .event-card-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            padding: 0.3rem 0.8rem;
+            border-radius: 100px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: white;
+            backdrop-filter: blur(8px);
+        }
+        
+        .badge-upcoming { background: rgba(33,150,243,0.85); }
+        .badge-today { background: rgba(255,152,0,0.85); }
+        .badge-selling-fast { background: rgba(244,67,54,0.85); }
+        
+        .event-card-date {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            background: white;
+            padding: 0.5rem;
+            border-radius: var(--radius-sm);
+            text-align: center;
+            box-shadow: var(--shadow-md);
+            min-width: 55px;
+        }
+        
+        .date-day {
+            display: block;
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: var(--primary);
+            line-height: 1;
+        }
+        
+        .date-month {
+            font-size: 0.65rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+        
+        .event-card-body { padding: 1.25rem; }
+        
+        .event-card-body h3 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+            line-height: 1.3;
+        }
+        
+        .event-meta {
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+            margin-bottom: 1rem;
+        }
+        
+        .event-meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.82rem;
+            color: var(--text-secondary);
+        }
+        
+        .event-meta-item i { width: 16px; text-align: center; }
+        
+        .event-card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.85rem 1.25rem;
+            background: var(--bg);
+            border-top: 1px solid var(--border-light);
+        }
+        
+        .event-price {
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: var(--primary-dark);
+        }
+        
+        .event-price small {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            font-weight: 400;
+        }
+        
+        .seats-left {
+            font-size: 0.78rem;
+            font-weight: 600;
+        }
+        
+        .seats-left.urgent { color: var(--danger); }
+        .seats-left.ok { color: var(--warning); }
+        
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+        }
+        
+        .empty-state .icon {
+            font-size: 4rem;
+            display: block;
+            margin-bottom: 1rem;
+        }
+        
+        .empty-state h3 { margin-bottom: 0.5rem; }
+        .empty-state p { color: var(--text-secondary); margin-bottom: 1.5rem; }
+        
+        /* Load More */
+        .load-more-container {
+            text-align: center;
+            padding: 1rem 0 3rem;
+        }
+        
+        /* Footer */
+        .footer {
+            background: #1A1A2E;
+            color: white;
+            padding: 3rem 0 0;
+            margin-top: 2rem;
+        }
+        
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 2rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .footer h4 { margin-bottom: 1rem; }
+        .footer p, .footer a { color: rgba(255,255,255,0.6); font-size: 0.9rem; text-decoration: none; display: block; padding: 0.3rem 0; }
+        .footer a:hover { color: var(--primary); }
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            padding: 1.5rem 0;
+            color: rgba(255,255,255,0.4);
+            font-size: 0.85rem;
+        }
+        
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .nav-links.open {
+                display: flex;
+                flex-direction: column;
+                position: absolute;
+                top: 100%;
+                left: 0; right: 0;
+                background: white;
+                padding: 1.5rem;
+                box-shadow: var(--shadow-lg);
+            }
+            .mobile-menu-btn { display: block; }
+            .search-bar { flex-direction: column; }
+            .events-grid { grid-template-columns: 1fr; }
+            .footer-grid { grid-template-columns: 1fr 1fr; }
+            .results-header { flex-direction: column; align-items: flex-start; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header" id="header">
+        <div class="container header-inner">
+            <a href="index.html" class="logo">
+                <span class="logo-icon">🎫</span>
+                <span>EventMaster UG</span>
+            </a>
+            <button class="mobile-menu-btn" id="mobileMenuBtn"><i class="fas fa-bars"></i></button>
+            <nav class="nav-links" id="navLinks">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="events.html" class="nav-link active">Events</a>
+                <a href="about.html" class="nav-link">About</a>
+                <a href="contact.html" class="nav-link">Contact</a>
+                <a href="../auth/login.html" class="btn btn-outline btn-sm">Sign In</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Search Hero -->
+    <section class="search-hero">
+        <div class="container">
+            <h1>Discover Events in Uganda</h1>
+            <p>Find concerts, conferences, festivals, and more across all regions</p>
+            <div class="search-bar">
+                <input type="text" id="searchInput" placeholder="🔍 Search events, artists, venues...">
+                <select id="categoryFilter">
+                    <option value="all">All Categories</option>
+                </select>
+                <select id="cityFilter">
+                    <option value="all">All Cities</option>
+                </select>
+                <select id="dateFilter">
+                    <option value="all">Any Date</option>
+                    <option value="today">Today</option>
+                    <option value="week">This Week</option>
+                    <option value="month">This Month</option>
+                    <option value="weekend">This Weekend</option>
+                </select>
+            </div>
+        </div>
+    </section>
+
+    <!-- Category Pills -->
+    <div class="category-pills-section">
+        <div class="container">
+            <div class="category-pills" id="categoryPills"></div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main>
+        <div class="container">
+            <div class="results-header">
+                <div class="results-count">
+                    <span id="resultsCount">0</span> events found
+                </div>
+                <div class="results-sort">
+                    <label>Sort by:</label>
+                    <select id="sortFilter">
+                        <option value="date">Date (Upcoming)</option>
+                        <option value="popular">Most Popular</option>
+                        <option value="price_low">Price: Low to High</option>
+                        <option value="price_high">Price: High to Low</option>
+                    </select>
+                </div>
+                <div class="view-toggle">
+                    <button class="view-btn active" data-view="grid"><i class="fas fa-th-large"></i></button>
+                    <button class="view-btn" data-view="list"><i class="fas fa-list"></i></button>
+                </div>
+            </div>
+
+            <div class="events-grid" id="eventsGrid"></div>
+
+            <div class="empty-state" id="emptyState" style="display:none;">
+                <span class="icon">🔍</span>
+                <h3>No events found</h3>
+                <p id="emptyMessage">Try adjusting your filters or search terms</p>
+                <button class="btn btn-outline" id="clearFiltersBtn">Clear All Filters</button>
+            </div>
+
+            <div class="load-more-container" id="loadMoreContainer" style="display:none;">
+                <button class="btn btn-outline btn-lg" id="loadMoreBtn">
+                    Load More Events <i class="fas fa-chevron-down"></i>
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div>
+                    <h4>🎫 EventMaster UG</h4>
+                    <p>Your gateway to the best events across Uganda.</p>
+                </div>
+                <div>
+                    <h4>Quick Links</h4>
+                    <a href="events.html">Browse Events</a>
+                    <a href="about.html">About Us</a>
+                </div>
+                <div>
+                    <h4>Support</h4>
+                    <a href="faq.html">FAQ</a>
+                    <a href="contact.html">Contact</a>
+                </div>
+                <div>
+                    <h4>Contact</h4>
+                    <p>📞 +256 700 123456</p>
+                    <p>✉️ info@eventmaster.ug</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 EventMaster Uganda</p>
+                <span>📱 MoMo | 📱 Airtel | 💳 Cards</span>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // ============================================
+        // UGANDA LOCATIONS DATA
+        // ============================================
+        const UGANDA_REGIONS = ['Central', 'Eastern', 'Northern', 'Western'];
+        const UGANDA_DISTRICTS = [
+            'Abim','Adjumani','Agago','Alebtong','Amolatar','Amudat','Amuria','Amuru','Apac','Arua',
+            'Budaka','Bududa','Bugiri','Buhweju','Buikwe','Bukedea','Bukomansimbi','Bukwo','Bulambuli',
+            'Buliisa','Bundibugyo','Bunyangabu','Bushenyi','Busia','Butaleja','Butambala','Buvuma',
+            'Buyende','Dokolo','Gomba','Gulu','Hoima','Ibanda','Iganga','Isingiro','Jinja','Kaabong',
+            'Kabale','Kabarole','Kaberamaido','Kagadi','Kakumiro','Kalaki','Kalangala','Kaliro','Kalungu',
+            'Kampala','Kamuli','Kamwenge','Kanungu','Kapchorwa','Kapelebyong','Karenga','Kasanda','Kasese',
+            'Katakwi','Kayunga','Kazo','Kibale','Kiboga','Kibuku','Kiruhura','Kiryandongo','Kisoro',
+            'Kitagwenda','Kitgum','Koboko','Kole','Kotido','Kumi','Kwania','Kween','Kyankwanzi',
+            'Kyegegwa','Kyenjojo','Kyotera','Lamwo','Lira','Luuka','Luwero','Lwengo','Lyantonde',
+            'Madi-Okollo','Manafwa','Maracha','Masaka','Masindi','Mayuge','Mbale','Mbarara','Mitooma',
+            'Mityana','Moroto','Moyo','Mpigi','Mubende','Mukono','Nabilatuk','Nakapiripirit','Nakaseke',
+            'Nakasongola','Namayingo','Namisindwa','Namutumba','Napak','Nebbi','Ngora','Ntoroko',
+            'Ntungamo','Nwoya','Obongi','Omoro','Otuke','Oyam','Pader','Pakwach','Pallisa','Rakai',
+            'Rubanda','Rubirizi','Rukiga','Rukungiri','Rwampara','Sembabule','Serere','Sheema','Sironko',
+            'Soroti','Terego','Tororo','Wakiso','Yumbe','Zombo'
+        ];
+        const UGANDA_CITIES = ['Kampala','Entebbe','Jinja','Mbarara','Gulu','Lira','Mbale','Masaka','Fort Portal','Arua','Hoima','Soroti'];
+        const TOWN_COUNCILS = ['Bweyogerere','Kira','Nansana','Makindye','Lubaga','Kawempe','Nakawa','Central Kampala','Mukono','Wakiso','Njeru','Busia','Malaba','Katwe','Kasese'];
+
+        // ============================================
+        // EVENT CATEGORIES (25+)
+        // ============================================
+        const EVENT_CATEGORIES = [
+            { value: 'all', label: 'All', icon: '🎪' },
+            { value: 'concert', label: 'Concerts', icon: '🎵' },
+            { value: 'conference', label: 'Conferences', icon: '💼' },
+            { value: 'comedy', label: 'Comedy', icon: '🎭' },
+            { value: 'festival', label: 'Festivals', icon: '🎉' },
+            { value: 'sports', label: 'Sports', icon: '⚽' },
+            { value: 'workshop', label: 'Workshops', icon: '📚' },
+            { value: 'exhibition', label: 'Exhibitions', icon: '🖼️' },
+            { value: 'networking', label: 'Networking', icon: '🤝' },
+            { value: 'religious', label: 'Religious', icon: '⛪' },
+            { value: 'charity', label: 'Charity', icon: '❤️' },
+            { value: 'fashion', label: 'Fashion', icon: '👗' },
+            { value: 'food_drink', label: 'Food & Drink', icon: '🍽️' },
+            { value: 'film', label: 'Film', icon: '🎬' },
+            { value: 'literature', label: 'Literature', icon: '📖' },
+            { value: 'gaming', label: 'Gaming', icon: '🎮' },
+            { value: 'health_wellness', label: 'Wellness', icon: '🧘' },
+            { value: 'technology', label: 'Technology', icon: '💻' },
+            { value: 'business', label: 'Business', icon: '📈' },
+            { value: 'education', label: 'Education', icon: '🎓' },
+            { value: 'politics', label: 'Politics', icon: '🏛️' },
+            { value: 'family', label: 'Family', icon: '👨‍👩‍👧‍👦' },
+            { value: 'outdoor', label: 'Outdoor', icon: '🏕️' },
+            { value: 'dance', label: 'Dance', icon: '💃' },
+            { value: 'car_show', label: 'Car Show', icon: '🚗' },
+            { value: 'other', label: 'Other', icon: '📌' }
+        ];
+
+        // ============================================
+        // GRADIENT COLORS FOR EVENT CARDS
+        // ============================================
+        const gradients = [
+            'linear-gradient(135deg, #667eea, #764ba2)',
+            'linear-gradient(135deg, #f093fb, #f5576c)',
+            'linear-gradient(135deg, #4facfe, #00f2fe)',
+            'linear-gradient(135deg, #43e97b, #38f9d7)',
+            'linear-gradient(135deg, #fa709a, #fee140)',
+            'linear-gradient(135deg, #a18cd1, #fbc2eb)',
+            'linear-gradient(135deg, #fccb90, #d57eeb)',
+            'linear-gradient(135deg, #e0c3fc, #8ec5fc)',
+            'linear-gradient(135deg, #f5576c, #ff6f00)',
+            'linear-gradient(135deg, #667eea, #00f2fe)',
+        ];
+
+        // ============================================
+        // STATE
+        // ============================================
+        const state = {
+            allEvents: [],
+            filteredEvents: [],
+            category: 'all',
+            city: 'all',
+            date: 'all',
+            search: '',
+            sort: 'date',
+            view: 'grid',
+            page: 1,
+            pageSize: 9
+        };
+
+        // ============================================
+        // GENERATE DEMO EVENTS
+        // ============================================
+        function generateDemoEvents() {
+            const events = [];
+            const venues = [
+                { name: 'Kampala Serena Hotel', city: 'Kampala', district: 'Kampala', region: 'Central' },
+                { name: 'Speke Resort Munyonyo', city: 'Kampala', district: 'Kampala', region: 'Central' },
+                { name: 'National Theatre', city: 'Kampala', district: 'Kampala', region: 'Central' },
+                { name: 'Jinja Nile Resort', city: 'Jinja', district: 'Jinja', region: 'Eastern' },
+                { name: 'Mbarara University Grounds', city: 'Mbarara', district: 'Mbarara', region: 'Western' },
+                { name: 'Gulu Recreation Center', city: 'Gulu', district: 'Gulu', region: 'Northern' },
+                { name: 'Lake Victoria Hotel', city: 'Entebbe', district: 'Wakiso', region: 'Central' },
+                { name: 'Mbale Stadium', city: 'Mbale', district: 'Mbale', region: 'Eastern' },
+                { name: 'Fort Portal Golf Club', city: 'Fort Portal', district: 'Kabarole', region: 'Western' },
+                { name: 'Arua Hill Conference Hall', city: 'Arua', district: 'Arua', region: 'Northern' },
+            ];
+
+            const categories = EVENT_CATEGORIES.filter(c => c.value !== 'all').map(c => c.value);
+            
+            for (let i = 0; i < 24; i++) {
+                const venue = venues[Math.floor(Math.random() * venues.length)];
+                const cat = categories[Math.floor(Math.random() * categories.length)];
+                const price = Math.floor(Math.random() * 250000) + 25000;
+                const capacity = Math.floor(Math.random() * 800) + 100;
+                const sold = Math.floor(Math.random() * capacity);
+                const daysFromNow = Math.floor(Math.random() * 90) - 10; // some past, some future
+                const date = new Date();
+                date.setDate(date.getDate() + daysFromNow);
+                
+                events.push({
+                    id: `evt-${i + 1}`,
+                    title: generateEventTitle(cat, venue.city),
+                    category: cat,
+                    venue: venue.name,
+                    city: venue.city,
+                    district: venue.district,
+                    region: venue.region,
+                    date: date.toISOString().split('T')[0],
+                    time: `${Math.floor(Math.random() * 12) + 8}:00`,
+                    price: price,
+                    capacity: capacity,
+                    ticketsSold: sold,
+                    image: null
+                });
+            }
+            
+            // Add a few specific events to ensure diversity
+            events.push({
+                id: 'evt-jazz',
+                title: 'Kampala Jazz Festival 2026',
+                category: 'concert',
+                venue: 'Kampala Serena Hotel',
+                city: 'Kampala',
+                district: 'Kampala',
+                region: 'Central',
+                date: '2026-06-15',
+                time: '18:00',
+                price: 75000,
+                capacity: 500,
+                ticketsSold: 423
+            });
+            
+            events.push({
+                id: 'evt-tech',
+                title: 'Tech Conference Uganda 2026',
+                category: 'conference',
+                venue: 'Speke Resort Munyonyo',
+                city: 'Kampala',
+                district: 'Kampala',
+                region: 'Central',
+                date: '2026-07-20',
+                time: '08:00',
+                price: 150000,
+                capacity: 300,
+                ticketsSold: 189
+            });
+            
+            events.push({
+                id: 'evt-comedy',
+                title: 'Comedy Night with Salvador',
+                category: 'comedy',
+                venue: 'National Theatre',
+                city: 'Kampala',
+                district: 'Kampala',
+                region: 'Central',
+                date: getTodayPlus(3),
+                time: '19:00',
+                price: 50000,
+                capacity: 200,
+                ticketsSold: 195
+            });
+            
+            events.push({
+                id: 'evt-nyege',
+                title: 'Nyege Nyege Festival 2026',
+                category: 'festival',
+                venue: 'Nile Discovery Beach',
+                city: 'Jinja',
+                district: 'Jinja',
+                region: 'Eastern',
+                date: '2026-09-05',
+                time: '12:00',
+                price: 100000,
+                capacity: 1000,
+                ticketsSold: 312
+            });
+            
+            return events;
+        }
+        
+        function generateEventTitle(category, city) {
+            const titles = {
+                concert: [`${city} Music Fest`, 'Live Band Night', 'Afrobeat Concert', 'Gospel Music Show'],
+                conference: ['Business Summit', 'Tech Talk', 'Leadership Forum', 'Innovation Conference'],
+                comedy: ['Comedy Night', 'Laugh Factory', 'Stand Up Special'],
+                festival: ['Cultural Festival', 'Food Festival', 'Art & Music Fest'],
+                sports: ['Marathon', 'Football Tournament', 'Rugby Match'],
+                workshop: ['Digital Skills Workshop', 'Writing Masterclass', 'Photography 101'],
+                exhibition: ['Art Exhibition', 'Trade Show', 'Photo Gallery'],
+                networking: ['Business Mixer', 'Networking Dinner', 'Meet & Greet'],
+                religious: ['Worship Night', 'Prayer Summit', 'Gospel Conference'],
+                charity: ['Fundraising Gala', 'Charity Walk', 'Blood Donation Drive'],
+                fashion: ['Fashion Show', 'Designer Expo', 'Beauty Pageant'],
+                food_drink: ['Food Tasting', 'Wine & Dine', 'BBQ Fest'],
+                film: ['Movie Premiere', 'Film Screening', 'Documentary Night'],
+                literature: ['Book Launch', 'Poetry Slam', 'Author Talk'],
+                gaming: ['Gaming Tournament', 'Esports Finals', 'Board Game Night'],
+                health_wellness: ['Yoga Retreat', 'Fitness Bootcamp', 'Mental Health Talk'],
+                technology: ['Tech Meetup', 'Hackathon', 'AI Conference'],
+                business: ['Business Workshop', 'Startup Pitch', 'Investment Forum'],
+                education: ['Career Fair', 'Study Abroad Expo', 'Scholarship Info Session'],
+                politics: ['Political Debate', 'Town Hall', 'Policy Forum'],
+                family: ['Family Fun Day', 'Kids Carnival', 'Parenting Workshop'],
+                outdoor: ['Camping Trip', 'Hiking Adventure', 'Nature Walk'],
+                dance: ['Dance Competition', 'Ballet Recital', 'Salsa Night'],
+                car_show: ['Car Exhibition', 'Vintage Car Show', 'Auto Trade Fair'],
+                other: ['Special Event', 'Community Gathering', 'Awards Ceremony']
+            };
+            const options = titles[category] || titles.other;
+            return options[Math.floor(Math.random() * options.length)];
+        }
+        
+        function getTodayPlus(days) {
+            const d = new Date();
+            d.setDate(d.getDate() + days);
+            return d.toISOString().split('T')[0];
+        }
+
+        // ============================================
+        // POPULATE FILTERS
+        // ============================================
+        function populateFilters() {
+            // Category pills
+            document.getElementById('categoryPills').innerHTML = EVENT_CATEGORIES.map(cat => `
+                <button class="category-pill ${cat.value === 'all' ? 'active' : ''}" data-category="${cat.value}">
+                    ${cat.icon} ${cat.label}
+                </button>
+            `).join('');
+            
+            // Category dropdown
+            document.getElementById('categoryFilter').innerHTML = EVENT_CATEGORIES.map(c => 
+                `<option value="${c.value}">${c.icon} ${c.label}</option>`
+            ).join('');
+            
+            // City dropdown
+            const citySelect = document.getElementById('cityFilter');
+            UGANDA_CITIES.forEach(city => {
+                const option = document.createElement('option');
+                option.value = city;
+                option.textContent = city;
+                citySelect.appendChild(option);
+            });
+        }
+
+        // ============================================
+        // APPLY FILTERS
+        // ============================================
+        function applyFilters() {
+            let filtered = [...state.allEvents];
+            
+            if (state.category !== 'all') {
+                filtered = filtered.filter(e => e.category === state.category);
+            }
+            
+            if (state.city !== 'all') {
+                filtered = filtered.filter(e => e.city === state.city);
+            }
+            
+            if (state.date === 'today') {
+                const today = new Date().toISOString().split('T')[0];
+                filtered = filtered.filter(e => e.date === today);
+            } else if (state.date === 'week') {
+                const weekEnd = new Date();
+                weekEnd.setDate(weekEnd.getDate() + 7);
+                filtered = filtered.filter(e => new Date(e.date) <= weekEnd && new Date(e.date) >= new Date());
+            } else if (state.date === 'month') {
+                const monthEnd = new Date();
+                monthEnd.setDate(monthEnd.getDate() + 30);
+                filtered = filtered.filter(e => new Date(e.date) <= monthEnd && new Date(e.date) >= new Date());
+            } else if (state.date === 'weekend') {
+                // Next weekend
+                const now = new Date();
+                const day = now.getDay();
+                const friday = new Date(now);
+                friday.setDate(now.getDate() + (5 - day + 7) % 7);
+                const sunday = new Date(friday);
+                sunday.setDate(friday.getDate() + 2);
+                filtered = filtered.filter(e => {
+                    const d = new Date(e.date);
+                    return d >= friday && d <= sunday;
+                });
+            }
+            
+            if (state.search) {
+                const q = state.search.toLowerCase();
+                filtered = filtered.filter(e => 
+                    e.title.toLowerCase().includes(q) ||
+                    e.venue.toLowerCase().includes(q) ||
+                    e.city.toLowerCase().includes(q) ||
+                    e.category.toLowerCase().includes(q)
+                );
+            }
+            
+            // Sort
+            switch (state.sort) {
+                case 'date':
+                    filtered.sort((a, b) => new Date(a.date) - new Date(b.date));
+                    break;
+                case 'popular':
+                    filtered.sort((a, b) => (b.ticketsSold / b.capacity) - (a.ticketsSold / a.capacity));
+                    break;
+                case 'price_low':
+                    filtered.sort((a, b) => a.price - b.price);
+                    break;
+                case 'price_high':
+                    filtered.sort((a, b) => b.price - a.price);
+                    break;
+            }
+            
+            state.filteredEvents = filtered;
+            state.page = 1;
+            renderEvents();
+        }
+
+        // ============================================
+        // RENDER EVENTS
+        // ============================================
+        function renderEvents() {
+            const grid = document.getElementById('eventsGrid');
+            const empty = document.getElementById('emptyState');
+            const loadMore = document.getElementById('loadMoreContainer');
+            
+            const pageEvents = state.filteredEvents.slice(0, state.page * state.pageSize);
+            
+            document.getElementById('resultsCount').textContent = state.filteredEvents.length;
+            
+            if (state.filteredEvents.length === 0) {
+                grid.innerHTML = '';
+                empty.style.display = 'block';
+                loadMore.style.display = 'none';
+                document.getElementById('emptyMessage').textContent = 
+                    state.search ? 'No events match your search.' : 
+                    'No events found. Try different filters.';
+                document.getElementById('clearFiltersBtn').style.display = 'inline-flex';
+                return;
+            }
+            
+            empty.style.display = 'none';
+            document.getElementById('clearFiltersBtn').style.display = 'none';
+            grid.className = `events-grid ${state.view === 'list' ? 'list-view' : ''}`;
+            
+            grid.innerHTML = pageEvents.map((event, idx) => {
+                const d = new Date(event.date);
+                const today = new Date();
+                today.setHours(0,0,0,0);
+                const isToday = event.date === today.toISOString().split('T')[0];
+                const percentSold = Math.round((event.ticketsSold / event.capacity) * 100);
+                const remaining = event.capacity - event.ticketsSold;
+                const isSellingFast = remaining <= 20 && remaining > 0;
+                const isPast = new Date(event.date) < today;
+                
+                let badgeClass = 'badge-upcoming';
+                let badgeText = 'Upcoming';
+                if (isToday) { badgeClass = 'badge-today'; badgeText = 'Today!'; }
+                else if (isSellingFast) { badgeClass = 'badge-selling-fast'; badgeText = 'Selling Fast!'; }
+                else if (isPast) { badgeClass = ''; badgeText = ''; }
+                
+                return `
+                    <div class="event-card" onclick="window.location.href='event-details.html?event=${event.id}'" style="animation-delay:${idx * 0.05}s">
+                        <div class="event-card-image">
+                            <div class="bg" style="background:${gradients[idx % gradients.length]};"></div>
+                            <div class="event-card-overlay">
+                                <span class="event-card-category">${EVENT_CATEGORIES.find(c => c.value === event.category)?.icon || '📌'} ${event.category.replace(/_/g, ' ')}</span>
+                            </div>
+                            ${badgeText ? `<span class="event-card-badge ${badgeClass}">${badgeText}</span>` : ''}
+                            <div class="event-card-date">
+                                <span class="date-day">${d.getDate()}</span>
+                                <span class="date-month">${d.toLocaleString('en-US', {month:'short'})}</span>
+                            </div>
+                        </div>
+                        <div class="event-card-body">
+                            <h3>${event.title}</h3>
+                            <div class="event-meta">
+                                <div class="event-meta-item">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    <span>${event.venue}, ${event.city}</span>
+                                </div>
+                                <div class="event-meta-item">
+                                    <i class="fas fa-clock"></i>
+                                    <span>${event.time}</span>
+                                </div>
+                                ${event.region ? `
+                                <div class="event-meta-item">
+                                    <i class="fas fa-globe-africa"></i>
+                                    <span>${event.region} Region</span>
+                                </div>` : ''}
+                            </div>
+                        </div>
+                        <div class="event-card-footer">
+                            <div class="event-price">
+                                UGX ${event.price.toLocaleString()}
+                                <small>from</small>
+                            </div>
+                            ${remaining <= 20 && remaining > 0 ? 
+                                `<span class="seats-left urgent">Only ${remaining} left!</span>` :
+                                remaining <= 50 ? `<span class="seats-left ok">${remaining} remaining</span>` : ''
+                            }
+                        </div>
+                    </div>
+                `;
+            }).join('');
+            
+            loadMore.style.display = pageEvents.length < state.filteredEvents.length ? 'block' : 'none';
+        }
+
+        // ============================================
+        // EVENT LISTENERS
+        // ============================================
+        function setupListeners() {
+            // Search
+            document.getElementById('searchInput').addEventListener('input', debounce(function(e) {
+                state.search = e.target.value;
+                applyFilters();
+            }, 300));
+            
+            // Category pills
+            document.getElementById('categoryPills').addEventListener('click', function(e) {
+                const pill = e.target.closest('.category-pill');
+                if (!pill) return;
+                document.querySelectorAll('.category-pill').forEach(p => p.classList.remove('active'));
+                pill.classList.add('active');
+                state.category = pill.dataset.category;
+                document.getElementById('categoryFilter').value = state.category;
+                applyFilters();
+            });
+            
+            // Dropdown filters
+            document.getElementById('categoryFilter').addEventListener('change', function(e) {
+                state.category = e.target.value;
+                document.querySelectorAll('.category-pill').forEach(p => p.classList.remove('active'));
+                const activePill = document.querySelector(`.category-pill[data-category="${state.category}"]`);
+                if (activePill) activePill.classList.add('active');
+                applyFilters();
+            });
+            
+            document.getElementById('cityFilter').addEventListener('change', function(e) {
+                state.city = e.target.value;
+                applyFilters();
+            });
+            
+            document.getElementById('dateFilter').addEventListener('change', function(e) {
+                state.date = e.target.value;
+                applyFilters();
+            });
+            
+            document.getElementById('sortFilter').addEventListener('change', function(e) {
+                state.sort = e.target.value;
+                applyFilters();
+            });
+            
+            // View toggle
+            document.querySelectorAll('.view-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    document.querySelectorAll('.view-btn').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    state.view = this.dataset.view;
+                    renderEvents();
+                });
+            });
+            
+            // Load more
+            document.getElementById('loadMoreBtn').addEventListener('click', function() {
+                state.page++;
+                renderEvents();
+            });
+            
+            // Clear filters
+            document.getElementById('clearFiltersBtn').addEventListener('click', function() {
+                state.category = 'all';
+                state.city = 'all';
+                state.date = 'all';
+                state.search = '';
+                document.getElementById('searchInput').value = '';
+                document.getElementById('categoryFilter').value = 'all';
+                document.getElementById('cityFilter').value = 'all';
+                document.getElementById('dateFilter').value = 'all';
+                document.querySelectorAll('.category-pill').forEach(p => p.classList.remove('active'));
+                document.querySelector('[data-category="all"]')?.classList.add('active');
+                applyFilters();
+            });
+            
+            // Mobile menu
+            document.getElementById('mobileMenuBtn').addEventListener('click', function() {
+                document.getElementById('navLinks').classList.toggle('open');
+            });
+            
+            // Header scroll
+            window.addEventListener('scroll', function() {
+                document.getElementById('header').classList.toggle('scrolled', window.scrollY > 50);
+            });
+        }
+
+        function debounce(func, wait) {
+            let timeout;
+            return function(...args) {
+                clearTimeout(timeout);
+                timeout = setTimeout(() => func.apply(this, args), wait);
+            };
+        }
+
+        // ============================================
+        // INIT
+        // ============================================
+        function init() {
+            state.allEvents = generateDemoEvents();
+            populateFilters();
+            applyFilters();
+            setupListeners();
+        }
+
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>
