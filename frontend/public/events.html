@@ -642,477 +642,612 @@
             </div>
         </div>
     </footer>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>About Papa – The Boy Who Planted Laughter</title>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+// ============================================
+// UGANDA LOCATIONS DATA – Enhanced Towns & Sub‑Regions
+// ============================================
+const UGANDA_REGIONS = ['Central', 'Eastern', 'Northern', 'Western'];
 
-    :root {
-      --bg: #fdf8f0;
-      --text: #3e2c1b;
-      --card-bg: #fff7ed;
-      --border: #d4a373;
-      --accent: #b45f2a;
-      --accent2: #6b4226;
-      --shadow: 0 4px 20px rgba(0,0,0,0.05);
-      --tab-active: #f5e6d3;
-      --rope: #a0522d;
-      --gold: #b8860b;
-    }
+const UGANDA_DISTRICTS = [
+    'Abim','Adjumani','Agago','Alebtong','Amolatar','Amudat','Amuria','Amuru','Apac','Arua',
+    'Budaka','Bududa','Bugiri','Buhweju','Buikwe','Bukedea','Bukomansimbi','Bukwo','Bulambuli',
+    'Buliisa','Bundibugyo','Bunyangabu','Bushenyi','Busia','Butaleja','Butambala','Buvuma',
+    'Buyende','Dokolo','Gomba','Gulu','Hoima','Ibanda','Iganga','Isingiro','Jinja','Kaabong',
+    'Kabale','Kabarole','Kaberamaido','Kagadi','Kakumiro','Kalaki','Kalangala','Kaliro','Kalungu',
+    'Kampala','Kamuli','Kamwenge','Kanungu','Kapchorwa','Kapelebyong','Karenga','Kasanda','Kasese',
+    'Katakwi','Kayunga','Kazo','Kibale','Kiboga','Kibuku','Kiruhura','Kiryandongo','Kisoro',
+    'Kitagwenda','Kitgum','Koboko','Kole','Kotido','Kumi','Kwania','Kween','Kyankwanzi',
+    'Kyegegwa','Kyenjojo','Kyotera','Lamwo','Lira','Luuka','Luwero','Lwengo','Lyantonde',
+    'Madi-Okollo','Manafwa','Maracha','Masaka','Masindi','Mayuge','Mbale','Mbarara','Mitooma',
+    'Mityana','Moroto','Moyo','Mpigi','Mubende','Mukono','Nabilatuk','Nakapiripirit','Nakaseke',
+    'Nakasongola','Namayingo','Namisindwa','Namutumba','Napak','Nebbi','Ngora','Ntoroko',
+    'Ntungamo','Nwoya','Obongi','Omoro','Otuke','Oyam','Pader','Pakwach','Pallisa','Rakai',
+    'Rubanda','Rubirizi','Rukiga','Rukungiri','Rwampara','Sembabule','Serere','Sheema','Sironko',
+    'Soroti','Terego','Tororo','Wakiso','Yumbe','Zombo'
+];
 
-    body.dark {
-      --bg: #1e1b18;
-      --text: #e6d5b8;
-      --card-bg: #2c241b;
-      --border: #6b4f3c;
-      --accent: #cd8b5a;
-      --accent2: #b4906a;
-      --shadow: 0 4px 20px rgba(0,0,0,0.3);
-      --tab-active: #3a2e22;
-      --rope: #c68a5a;
-      --gold: #e6b422;
-    }
+const UGANDA_CITIES = ['Kampala','Entebbe','Jinja','Mbarara','Gulu','Lira','Mbale','Masaka','Fort Portal','Arua','Hoima','Soroti'];
 
-    body {
-      font-family: 'Georgia', 'Times New Roman', serif;
-      background: var(--bg);
-      color: var(--text);
-      transition: background 0.4s, color 0.4s;
-      line-height: 1.7;
-      padding: 1rem;
-    }
+// ============================================
+// SUB-REGIONS & ALL TOWNS
+// ============================================
+const SUBREGIONS = {
+    'West Nile': ['Arua','Koboko','Yumbe','Moyo','Adjumani','Nebbi','Zombo','Pakwach','Rhino Camp','Maracha','Terego','Madi-Okollo','Obongi'],
+    'Acholi': ['Gulu','Kitgum','Pader','Lamwo','Agago','Nwoya','Omoro','Amuru','Palabek','Atiak'],
+    'Lango': ['Lira','Apac','Dokolo','Kole','Otuke','Oyam','Alebtong','Amolatar'],
+    'Karamoja': ['Moroto','Kotido','Kaabong','Nakapiripirit','Amudat','Napak','Abim'],
+    'Teso': ['Soroti','Kumi','Katakwi','Ngora','Serere','Bukedea','Amuria','Kaberamaido'],
+    'Buganda': ['Kampala','Entebbe','Mukono','Wakiso','Masaka','Mpigi','Luwero','Kayunga','Nakaseke','Nakasongola','Bweyogerere','Kira','Nansana','Makindye','Lubaga','Kawempe','Nakawa','Central Kampala','Gomba','Butambala','Gabba Beach'],
+    'Busoga': ['Jinja','Iganga','Kamuli','Mayuge','Bugiri','Namayingo','Luuka','Buyende','Kaliro'],
+    'Ankole': ['Mbarara','Bushenyi','Ntungamo','Isingiro','Kiruhura','Ibanda','Mitooma','Sheema','Rwampara','Rubirizi'],
+    'Kigezi': ['Kabale','Kisoro','Rukungiri','Kanungu','Rubanda','Rukiga'],
+    'Toro': ['Fort Portal','Kabarole','Kyegegwa','Bunyangabu','Kitagwenda','Kamwenge'],
+    'Bunyoro': ['Hoima','Masindi','Kiryandongo','Kikuube','Kakumiro','Kagadi','Buliisa'],
+    'Bugisu': ['Mbale','Sironko','Manafwa','Bududa','Namisindwa','Bulambuli'],
+    'Sebei': ['Kapchorwa','Kween','Bukwo'],
+    'Rwenzori': ['Kasese','Bundibugyo','Ntoroko'],
+    'Others': ['Kalangala','Buvuma','Rakai','Lyantonde','Kyotera','Sembabule','Kiboga','Mubende','Kibale']
+};
 
-    .container {
-      max-width: 1000px;
-      margin: 0 auto;
-    }
+const ALL_TOWNS = Object.values(SUBREGIONS).flat().sort();
 
-    /* Header & Toggle */
-    header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      margin-bottom: 2rem;
-      border-bottom: 2px dashed var(--border);
-      padding-bottom: 1rem;
-    }
+// ============================================
+// SPECIAL VENUES – West Nile, Northern & Beach Life
+// ============================================
+const SPECIAL_VENUES = {
+    // West Nile
+    'Arua': ['Arua Hill Conference Hall','Arua Cultural Centre','Arua Golf Club','White Castle Hotel Arua'],
+    'Koboko': ['Koboko District Stadium','Koboko Town Hall','Koboko Cultural Grounds'],
+    'Yumbe': ['Yumbe Community Hall','Yumbe Cultural Centre','Yumbe Peace Memorial Grounds'],
+    'Moyo': ['Moyo Multipurpose Centre','Mt Otche Base Camp','Moyo Nile View Resort','Moyo Mountain Tour Start Point'],
+    'Adjumani': ['Adjumani Town Hall','Arra Fishing Lodge Beach (River Nile)','Adjumani Nile Resort','Adjumani Cultural Centre'],
+    'Nebbi': ['Nebbi Cultural Centre','Nebbi Town Hall','Nebbi Waterfront Gardens'],
+    'Zombo': ['Zombo District Hall','Zombo Cultural Grounds','Paidha Community Centre'],
+    'Pakwach': ['Pakwach Nile Hall','Pakwach Fishing Lodge','Pakwach Bridge View Resort'],
+    'Rhino Camp': ['Rhino Camp Event Grounds','Rhino Camp Nile Beach','Rhino Sanctuary Lodge'],
+    'Maracha': ['Maracha District Hall','Maracha Community Centre'],
+    'Terego': ['Terego Cultural Centre','Terego Town Hall'],
+    'Madi-Okollo': ['Madi-Okollo Community Hall','Okollo Riverside Gardens'],
+    'Obongi': ['Obongi Town Hall','Obongi Nile Beach Resort','Obongi Fishing Camp'],
+    // Acholi
+    'Gulu': ['Gulu Recreation Center','Gulu University Hall','Acholi Inn Conference Centre'],
+    'Kitgum': ['Kitgum Recreation Grounds','Kitgum Cultural Centre'],
+    'Pader': ['Pader Community Centre','Pader Town Hall'],
+    'Lamwo': ['Lamwo Town Hall','Lamwo Border Point Hall'],
+    'Agago': ['Agago Town Hall','Agago Community Centre'],
+    'Nwoya': ['Nwoya District Hall','Murchison Falls View Lodge'],
+    'Omoro': ['Omoro District Hall','Omoro Cultural Centre'],
+    'Amuru': ['Amuru Community Centre','Amuru Town Hall'],
+    'Palabek': ['Palabek Reception Centre','Palabek Community Hall'],
+    'Atiak': ['Atiak Trading Centre Hall','Atiak Sugar Works Grounds'],
+    // Lango
+    'Lira': ['Lira Hotel Conference Room','Lira Town Hall','Lira University Grounds'],
+    'Apac': ['Apac Town Hall','Apac District Grounds'],
+    'Dokolo': ['Dokolo District Hall','Dokolo Community Centre'],
+    'Kole': ['Kole Community Centre','Kole Town Hall'],
+    'Otuke': ['Otuke Town Hall','Otuke District Grounds'],
+    'Oyam': ['Oyam District Hall','Oyam Community Centre'],
+    'Alebtong': ['Alebtong Town Hall','Alebtong Community Centre'],
+    'Amolatar': ['Amolatar Landing Site Hall','Lake Kyoga View Resort'],
+    // Karamoja
+    'Moroto': ['Moroto Municipal Stadium','Moroto Mountain View Hotel'],
+    'Kotido': ['Kotido Cultural Hall','Kotido Town Hall'],
+    'Kaabong': ['Kaabong Community Centre','Kaabong Cultural Grounds'],
+    'Nakapiripirit': ['Nakapiripirit Town Hall','Karamoja Cultural Centre'],
+    'Amudat': ['Amudat Community Centre','Amudat Border Point Hall'],
+    'Napak': ['Napak District Hall','Napak Community Grounds'],
+    'Abim': ['Abim Town Hall','Abim Community Centre'],
+    // Teso
+    'Soroti': ['Soroti Sports Complex','Soroti Hotel Conference Room'],
+    'Kumi': ['Kumi Town Hall','Kumi District Grounds'],
+    'Katakwi': ['Katakwi District Hall','Katakwi Community Centre'],
+    'Ngora': ['Ngora Town Hall','Ngora Community Centre'],
+    'Serere': ['Serere District Hall','Serere Landing Site'],
+    'Bukedea': ['Bukedea Town Hall','Bukedea Sports Ground'],
+    'Amuria': ['Amuria Town Hall','Amuria District Grounds'],
+    'Kaberamaido': ['Kaberamaido Town Hall','Lake Kyoga Shore Resort'],
+    // Buganda
+    'Kampala': ['Kampala Serena Hotel','National Theatre','Speke Resort Munyonyo','Hotel Africana'],
+    'Entebbe': ['Lake Victoria Hotel','Entebbe Botanical Gardens','Entebbe Beach Resort'],
+    'Mukono': ['Mukono Community Hall','Mukono University Grounds'],
+    'Wakiso': ['Wakiso District Hall','Wakiso Community Centre'],
+    'Masaka': ['Masaka Recreation Grounds','Tropic Inn Masaka'],
+    'Mpigi': ['Mpigi Town Hall','Mpigi District Grounds'],
+    'Luwero': ['Luwero Town Hall','Luwero Triangle Memorial Site'],
+    'Kayunga': ['Kayunga District Hall','Kayunga Riverside Gardens'],
+    'Nakaseke': ['Nakaseke Town Hall','Nakaseke Community Centre'],
+    'Nakasongola': ['Nakasongola Town Hall','Nakasongola Community Hall'],
+    'Bweyogerere': ['Bweyogerere Community Centre','Bweyogerere Recreation Grounds'],
+    'Kira': ['Kira Town Hall','Kira Community Centre'],
+    'Nansana': ['Nansana Community Hall','Nansana Recreation Centre'],
+    'Makindye': ['Makindye Hall','Makindye Community Grounds'],
+    'Lubaga': ['Lubaga Parish Hall','Lubaga Community Centre'],
+    'Kawempe': ['Kawempe Community Centre','Kawempe Recreation Hall'],
+    'Nakawa': ['Nakawa Community Hall','Nakawa Business Centre'],
+    'Central Kampala': ['Hotel Africana','Fairway Hotel','Sheraton Kampala'],
+    'Gomba': ['Gomba District Hall','Gomba Community Centre'],
+    'Butambala': ['Butambala Town Hall','Butambala Community Centre'],
+    'Gabba Beach': ['Gabba Beach Resort','Gabba Beach Landing Site','Gabba Waterfront Gardens'],
+    // Busoga
+    'Jinja': ['Jinja Nile Resort','Source of the Nile Gardens','Jinja Sailing Club'],
+    'Iganga': ['Iganga Cultural Centre','Iganga Town Hall'],
+    'Kamuli': ['Kamuli Town Hall','Kamuli District Grounds'],
+    'Mayuge': ['Mayuge District Hall','Mayuge Landing Site'],
+    'Bugiri': ['Bugiri Town Hall','Bugiri District Grounds'],
+    'Namayingo': ['Namayingo Town Hall','Namayingo Beach Resort'],
+    'Luuka': ['Luuka Town Hall','Luuka Community Centre'],
+    'Buyende': ['Buyende Town Hall','Buyende Landing Site'],
+    'Kaliro': ['Kaliro Town Hall','Kaliro Community Centre'],
+    // Ankole
+    'Mbarara': ['Mbarara University Grounds','Lake Mburo Hotel','Mbarara Golf Club'],
+    'Bushenyi': ['Bushenyi Town Hall','Bushenyi Cultural Centre'],
+    'Ntungamo': ['Ntungamo Town Hall','Ntungamo District Grounds'],
+    'Isingiro': ['Isingiro Town Hall','Isingiro Community Centre'],
+    'Kiruhura': ['Kiruhura Town Hall','Kiruhura Ranching Grounds'],
+    'Ibanda': ['Ibanda Town Hall','Ibanda Community Centre'],
+    'Mitooma': ['Mitooma Town Hall','Mitooma District Grounds'],
+    'Sheema': ['Sheema Town Hall','Sheema Community Centre'],
+    'Rwampara': ['Rwampara Town Hall','Rwampara Community Centre'],
+    'Rubirizi': ['Rubirizi Town Hall','Rubirizi District Grounds'],
+    // Kigezi
+    'Kabale': ['Kabale Municipal Stadium','Lake Bunyonyi Resort'],
+    'Kisoro': ['Kisoro Town Hall','Mgahinga Gorilla Lodge'],
+    'Rukungiri': ['Rukungiri Town Hall','Rukungiri Community Centre'],
+    'Kanungu': ['Kanungu Town Hall','Bwindi Impenetrable Forest Lodge'],
+    'Rubanda': ['Rubanda Town Hall','Rubanda Community Centre'],
+    'Rukiga': ['Rukiga Town Hall','Rukiga Community Centre'],
+    // Toro
+    'Fort Portal': ['Fort Portal Golf Club','Mountains of the Moon Hotel','Fort Portal Botanical Gardens'],
+    'Kabarole': ['Kabarole Town Hall','Kabarole District Grounds'],
+    'Kyegegwa': ['Kyegegwa Town Hall','Kyegegwa Community Centre'],
+    'Bunyangabu': ['Bunyangabu Town Hall','Bunyangabu Community Centre'],
+    'Kitagwenda': ['Kitagwenda Town Hall','Kitagwenda Community Centre'],
+    'Kamwenge': ['Kamwenge Town Hall','Kamwenge District Grounds'],
+    // Bunyoro
+    'Hoima': ['Hoima Cultural Centre','Hoima Resort','Hoima Oil City Conference Hall'],
+    'Masindi': ['Masindi Town Hall','Masindi Hotel'],
+    'Kiryandongo': ['Kiryandongo Town Hall','Kiryandongo Refugee Settlement Hall'],
+    'Kikuube': ['Kikuube Town Hall','Kikuube Community Centre'],
+    'Kakumiro': ['Kakumiro Town Hall','Kakumiro District Grounds'],
+    'Kagadi': ['Kagadi Town Hall','Kagadi Community Centre'],
+    'Buliisa': ['Buliisa Town Hall','Buliisa Landing Site'],
+    // Bugisu
+    'Mbale': ['Mbale Stadium','Mbale Resort','Mbale Mountain View Hotel'],
+    'Sironko': ['Sironko Town Hall','Sironko Community Centre'],
+    'Manafwa': ['Manafwa Town Hall','Manafwa District Grounds'],
+    'Bududa': ['Bududa Town Hall','Bududa Community Centre'],
+    'Namisindwa': ['Namisindwa Town Hall','Namisindwa Community Centre'],
+    'Bulambuli': ['Bulambuli Town Hall','Bulambuli Community Centre'],
+    // Sebei
+    'Kapchorwa': ['Kapchorwa Town Hall','Sipi Falls Lodge'],
+    'Kween': ['Kween Town Hall','Kween Community Centre'],
+    'Bukwo': ['Bukwo Town Hall','Bukwo Community Centre'],
+    // Rwenzori
+    'Kasese': ['Kasese Town Hall','Kasese Cultural Centre','Queen Elizabeth Safari Lodge'],
+    'Bundibugyo': ['Bundibugyo Town Hall','Bundibugyo Community Centre'],
+    'Ntoroko': ['Ntoroko Town Hall','Ntoroko Landing Site'],
+    // Others
+    'Kalangala': ['Kalangala Island Resort','Ssese Islands Beach Hotel'],
+    'Buvuma': ['Buvuma Island Hall','Buvuma Beach Resort'],
+    'Rakai': ['Rakai Town Hall','Rakai District Grounds'],
+    'Lyantonde': ['Lyantonde Town Hall','Lyantonde Community Centre'],
+    'Kyotera': ['Kyotera Town Hall','Kyotera District Grounds'],
+    'Sembabule': ['Sembabule Town Hall','Sembabule Community Centre'],
+    'Kiboga': ['Kiboga Town Hall','Kiboga District Grounds'],
+    'Mubende': ['Mubende Town Hall','Mubende Community Centre'],
+    'Kibale': ['Kibale Town Hall','Kibale Forest Camp']
+};
 
-    .logo h1 {
-      font-size: 2.2rem;
-      color: var(--accent);
-      font-weight: normal;
-      letter-spacing: 2px;
-    }
-    .logo span {
-      display: block;
-      font-size: 0.9rem;
-      color: var(--accent2);
-      font-style: italic;
-    }
+// ============================================
+// EVENT CATEGORIES (25+)
+// ============================================
+const EVENT_CATEGORIES = [
+    { value: 'all', label: 'All', icon: '🎪' },
+    { value: 'concert', label: 'Concerts', icon: '🎵' },
+    { value: 'conference', label: 'Conferences', icon: '💼' },
+    { value: 'comedy', label: 'Comedy', icon: '🎭' },
+    { value: 'festival', label: 'Festivals', icon: '🎉' },
+    { value: 'sports', label: 'Sports', icon: '⚽' },
+    { value: 'workshop', label: 'Workshops', icon: '📚' },
+    { value: 'exhibition', label: 'Exhibitions', icon: '🖼️' },
+    { value: 'networking', label: 'Networking', icon: '🤝' },
+    { value: 'religious', label: 'Religious', icon: '⛪' },
+    { value: 'charity', label: 'Charity', icon: '❤️' },
+    { value: 'fashion', label: 'Fashion', icon: '👗' },
+    { value: 'food_drink', label: 'Food & Drink', icon: '🍽️' },
+    { value: 'film', label: 'Film', icon: '🎬' },
+    { value: 'literature', label: 'Literature', icon: '📖' },
+    { value: 'gaming', label: 'Gaming', icon: '🎮' },
+    { value: 'health_wellness', label: 'Wellness', icon: '🧘' },
+    { value: 'technology', label: 'Technology', icon: '💻' },
+    { value: 'business', label: 'Business', icon: '📈' },
+    { value: 'education', label: 'Education', icon: '🎓' },
+    { value: 'family', label: 'Family', icon: '👨‍👩‍👧‍👦' },
+    { value: 'outdoor', label: 'Outdoor', icon: '🏕️' },
+    { value: 'dance', label: 'Dance', icon: '💃' },
+    { value: 'beach_life', label: 'Beach Life', icon: '🏖️' },
+    { value: 'mountain_climbing', label: 'Mountain Climbing', icon: '🏔️' },
+    { value: 'other', label: 'Other', icon: '📌' }
+];
 
-    .theme-toggle {
-      background: var(--card-bg);
-      border: 1px solid var(--border);
-      padding: 0.5rem 1rem;
-      border-radius: 30px;
-      cursor: pointer;
-      color: var(--text);
-      font-size: 0.9rem;
-      transition: 0.3s;
-      display: flex;
-      align-items: center;
-      gap: 0.3rem;
-    }
-    .theme-toggle:hover {
-      background: var(--border);
-      color: white;
-    }
+// ============================================
+// EVENT TITLE TEMPLATES per category
+// ============================================
+function generateEventTitle(category, town) {
+    const titles = {
+        concert: [`${town} Music Fest`, `${town} Live Band Night`, `${town} Afrobeat Concert`, `Gospel Night in ${town}`, `${town} Reggae Fest`],
+        conference: [`${town} Business Summit`, `${town} Tech Conference`, `${town} Leadership Forum`, `${town} Innovation Summit`],
+        comedy: [`Comedy Night in ${town}`, `${town} Laugh Factory`, `${town} Stand Up Comedy`, `Jokes & Jazz ${town}`],
+        festival: [`${town} Cultural Festival`, `${town} Food Festival`, `${town} Art & Music Fest`, `${town} Heritage Day`],
+        sports: [`${town} Marathon`, `${town} Football Tournament`, `${town} Rugby Match`, `${town} Cycling Challenge`],
+        workshop: [`Digital Skills ${town}`, `${town} Writing Workshop`, `${town} Photography 101`, `${town} Entrepreneurship Bootcamp`],
+        exhibition: [`${town} Art Exhibition`, `${town} Trade Show`, `${town} Photo Gallery`, `${town} Craft Expo`],
+        networking: [`${town} Business Mixer`, `${town} Networking Dinner`, `${town} Professionals Meetup`],
+        religious: [`${town} Worship Night`, `${town} Prayer Summit`, `${town} Gospel Conference`, `Ramadan Iftar ${town}`],
+        charity: [`${town} Fundraising Gala`, `${town} Charity Walk`, `${town} Blood Donation Drive`, `Give Back ${town}`],
+        fashion: [`${town} Fashion Show`, `${town} Designer Expo`, `${town} Beauty Pageant`],
+        food_drink: [`${town} Food Tasting`, `${town} Wine & Dine`, `${town} BBQ Fest`, `${town} Street Food Festival`],
+        film: [`${town} Movie Premiere`, `${town} Film Screening`, `${town} Documentary Night`],
+        literature: [`${town} Book Launch`, `${town} Poetry Slam`, `${town} Author Talk`],
+        gaming: [`${town} Gaming Tournament`, `${town} Esports Finals`, `${town} Board Game Night`],
+        health_wellness: [`${town} Yoga Retreat`, `${town} Fitness Bootcamp`, `${town} Mental Health Talk`, `${town} Wellness Camp`],
+        technology: [`${town} Tech Meetup`, `${town} Hackathon`, `${town} AI Conference`, `${town} Coding Bootcamp`],
+        business: [`${town} Business Workshop`, `${town} Startup Pitch`, `${town} Investment Forum`],
+        education: [`${town} Career Fair`, `${town} Study Abroad Expo`, `${town} Scholarship Info Session`],
+        family: [`${town} Family Fun Day`, `${town} Kids Carnival`, `${town} Parenting Workshop`],
+        outdoor: [`${town} Camping Trip`, `${town} Hiking Adventure`, `${town} Nature Walk`, `${town} Safari Experience`],
+        dance: [`${town} Dance Competition`, `${town} Salsa Night`, `${town} Traditional Dance Fest`],
+        beach_life: [`${town} Beach Party`, `${town} Sunset Cruise`, `${town} Beach Volleyball`, `${town} Sandcastle Competition`],
+        mountain_climbing: [`${town} Mountain Trek`, `${town} Summit Challenge`, `${town} Rock Climbing Day`, `${town} Hill Hiking Tour`],
+        other: [`${town} Special Event`, `${town} Community Gathering`, `${town} Awards Ceremony`]
+    };
+    const options = titles[category] || titles.other;
+    return options[Math.floor(Math.random() * options.length)];
+}
 
-    /* Navigation Tabs */
-    .nav-tabs {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-      margin-bottom: 2rem;
-      border-bottom: 1px solid var(--border);
-    }
-    .tab-btn {
-      background: transparent;
-      border: none;
-      padding: 0.7rem 1.5rem;
-      font-size: 1rem;
-      cursor: pointer;
-      color: var(--text);
-      border-radius: 8px 8px 0 0;
-      transition: 0.2s;
-      font-family: inherit;
-      font-weight: bold;
-    }
-    .tab-btn.active {
-      background: var(--tab-active);
-      border: 1px solid var(--border);
-      border-bottom: none;
-      color: var(--accent);
-    }
-    .tab-content {
-      display: none;
-      animation: fadeIn 0.5s ease;
-    }
-    .tab-content.active {
-      display: block;
-    }
+// ============================================
+// GRADIENT COLORS FOR EVENT CARDS
+// ============================================
+const gradients = [
+    'linear-gradient(135deg, #667eea, #764ba2)',
+    'linear-gradient(135deg, #f093fb, #f5576c)',
+    'linear-gradient(135deg, #4facfe, #00f2fe)',
+    'linear-gradient(135deg, #43e97b, #38f9d7)',
+    'linear-gradient(135deg, #fa709a, #fee140)',
+    'linear-gradient(135deg, #a18cd1, #fbc2eb)',
+    'linear-gradient(135deg, #fccb90, #d57eeb)',
+    'linear-gradient(135deg, #e0c3fc, #8ec5fc)',
+    'linear-gradient(135deg, #f5576c, #ff6f00)',
+    'linear-gradient(135deg, #667eea, #00f2fe)',
+    'linear-gradient(135deg, #11998e, #38ef7d)',
+    'linear-gradient(135deg, #fc4a1a, #f7b733)',
+    'linear-gradient(135deg, #00b4db, #0083b0)',
+    'linear-gradient(135deg, #ff6b6b, #c0392b)',
+    'linear-gradient(135deg, #8e2de2, #4a00e0)'
+];
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    /* Cards & Sections */
-    .card {
-      background: var(--card-bg);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 2rem;
-      margin-bottom: 2rem;
-      box-shadow: var(--shadow);
-    }
-
-    h2 {
-      color: var(--accent);
-      margin-bottom: 1rem;
-      font-size: 1.8rem;
-    }
-
-    /* Timeline */
-    .timeline {
-      position: relative;
-      margin: 2rem 0;
-      padding-left: 2rem;
-      border-left: 3px solid var(--rope);
-    }
-    .timeline-item {
-      margin-bottom: 2rem;
-      position: relative;
-    }
-    .timeline-item::before {
-      content: "🌱";
-      position: absolute;
-      left: -2.65rem;
-      background: var(--bg);
-      font-size: 1.3rem;
-      top: 0;
-    }
-    .time {
-      font-weight: bold;
-      color: var(--accent);
-    }
-
-    /* Rope of Lineage */
-    .rope-visual {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 1rem;
-      margin: 1.5rem 0;
-    }
-    .thread {
-      background: var(--rope);
-      color: white;
-      padding: 0.5rem 1.5rem;
-      border-radius: 30px;
-      font-weight: bold;
-      text-align: center;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-    }
-    .knot {
-      background: var(--gold);
-      color: #1e1b18;
-      padding: 0.7rem 1.8rem;
-      border-radius: 40px;
-      font-size: 1.2rem;
-    }
-
-    /* Values Grid */
-    .values-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-      gap: 1rem;
-    }
-    .value-card {
-      background: var(--card-bg);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 1.5rem;
-      text-align: center;
-      font-weight: bold;
-      color: var(--accent);
-      box-shadow: var(--shadow);
-    }
-
-    /* Proverb Box */
-    .proverb-box {
-      background: var(--card-bg);
-      border-left: 8px solid var(--gold);
-      padding: 2rem;
-      font-style: italic;
-      font-size: 1.3rem;
-      text-align: center;
-    }
-    .proverb-btn {
-      background: var(--accent);
-      color: white;
-      border: none;
-      padding: 0.8rem 2rem;
-      border-radius: 30px;
-      cursor: pointer;
-      margin-top: 1rem;
-      font-weight: bold;
-      transition: 0.3s;
-    }
-    .proverb-btn:hover {
-      background: var(--accent2);
-    }
-
-    /* Contact Form */
-    form {
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-    }
-    input, textarea {
-      padding: 0.8rem;
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      background: var(--bg);
-      color: var(--text);
-      font-family: inherit;
-    }
-    button[type="submit"] {
-      background: var(--accent);
-      color: white;
-      border: none;
-      padding: 0.8rem;
-      border-radius: 8px;
-      font-weight: bold;
-      cursor: pointer;
-    }
-
-    footer {
-      text-align: center;
-      margin-top: 3rem;
-      color: var(--accent2);
-      font-style: italic;
-    }
-
-    /* Responsive */
-    @media (max-width: 600px) {
-      .logo h1 { font-size: 1.8rem; }
-      .tab-btn { padding: 0.5rem 1rem; font-size: 0.9rem; }
-    }
-  </style>
-</head>
-<body>
-  <div class="container">
-    <header>
-      <div class="logo">
-        <h1>🌳 Papa's Corner</h1>
-        <span>The Boy Who Planted Laughter</span>
-      </div>
-      <button class="theme-toggle" id="themeToggle">
-        <span id="themeIcon">🌙</span> Dark Mode
-      </button>
-    </header>
-
-    <!-- Navigation Tabs -->
-    <div class="nav-tabs">
-      <button class="tab-btn active" data-tab="story">📖 My Story</button>
-      <button class="tab-btn" data-tab="lineage">🧬 Lineage</button>
-      <button class="tab-btn" data-tab="values">💎 Values</button>
-      <button class="tab-btn" data-tab="proverb">📜 Proverb of the Day</button>
-      <button class="tab-btn" data-tab="contact">💌 Ask Papa</button>
-    </div>
-
-    <!-- Tab: My Story (Timeline from 'One Day, When I Was Ten') -->
-    <div class="tab-content active" id="story">
-      <div class="card">
-        <h2>📅 One Day, When I Was Ten</h2>
-        <p>A true-ish story, stretched just a little — to show you that every ordinary day is a classroom.</p>
-        <div class="timeline">
-          <div class="timeline-item">
-            <div class="time">☀️ Morning</div>
-            <strong>Wake Up With Purpose.</strong> Mama said, "The day has already started its journey. Don't let it travel without you." I jumped up — not from fear, but because waking up felt like an invitation.
-          </div>
-          <div class="timeline-item">
-            <div class="time">🪣 Mid-Morning</div>
-            <strong>Work Sings If You Let It.</strong> Fetching water from the borehole, I sang terribly, making lizards run. I finished faster and arrived home with a wet smile.
-          </div>
-          <div class="timeline-item">
-            <div class="time">🍛 Afternoon</div>
-            <strong>Sharing Is Seasoning.</strong> One bowl of posho and beans, shared among three. Baba said, "A meal eaten alone fills the stomach but empties the heart." We invented stories about the beans — it was the best meal of my life.
-          </div>
-          <div class="timeline-item">
-            <div class="time">⚽ Late Afternoon</div>
-            <strong>Losing Is a Teacher in Disguise.</strong> My team lost. I sulked, but an older boy told me to congratulate the winners. Shaking their hands made me stronger, not weaker.
-          </div>
-          <div class="timeline-item">
-            <div class="time">🌅 Evening</div>
-            <strong>Family Is the Real Wealth.</strong> Sitting on the veranda, no phones, just the sky and Mama's stories. Baba strummed the adungu. I felt belonging.
-          </div>
-          <div class="timeline-item">
-            <div class="time">🌙 Night</div>
-            <strong>Sleep Is an Act of Faith.</strong> I whispered, "What if tomorrow is worse?" Mama said, "What if it's better? Sleep well." I trusted the night.
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Tab: Lineage (The Rope) -->
-    <div class="tab-content" id="lineage">
-      <div class="card">
-        <h2>🧬 The Rope That Cannot Break</h2>
-        <p>Imagine a rope woven from many threads. Each thread is an ancestor. You are the knot where past and future meet. If you pull one thread, the whole rope feels it.</p>
-        <div class="rope-visual">
-          <div class="thread">Great-Grandfather</div>
-          <div class="thread">Grandmother</div>
-          <div class="thread">Father</div>
-          <div class="knot">🧶 YOU</div>
-          <div class="thread">Your Children</div>
-          <div class="thread">Grandchildren</div>
-          <div class="thread">Future Generations</div>
-        </div>
-        <p style="margin-top:1.5rem;">🌿 <strong>The Footprints in the Dust:</strong> My grandfather said, "Step where I step. One day your feet will be bigger, and your children will walk in your prints. Make them worth following."</p>
-        <p>🌳 <strong>The Tree With No Name:</strong> Your name is a message from the past. When someone calls you, they call all the people you carry inside you.</p>
-      </div>
-    </div>
-
-    <!-- Tab: Core Values -->
-    <div class="tab-content" id="values">
-      <div class="card">
-        <h2>💎 Core Family Values</h2>
-        <p>These are the seeds I planted every day, and now I pass them to you.</p>
-        <div class="values-grid">
-          <div class="value-card">🤝 Integrity</div>
-          <div class="value-card">🙏 Respect</div>
-          <div class="value-card">🕊️ Honesty</div>
-          <div class="value-card">🌾 Humility</div>
-          <div class="value-card">🙌 Gratitude</div>
-          <div class="value-card">🏞️ Cultural Pride</div>
-          <div class="value-card">⚡ Responsibility</div>
-          <div class="value-card">❤️ Family Loyalty</div>
-          <div class="value-card">🤲 Partnership</div>
-          <div class="value-card">🎯 Discipline</div>
-          <div class="value-card">🍲 Service</div>
-          <div class="value-card">💖 Generosity</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Tab: Proverb of the Day -->
-    <div class="tab-content" id="proverb">
-      <div class="card">
-        <h2>📜 Proverb of the Day</h2>
-        <div class="proverb-box" id="proverbDisplay">
-          "The lizard that fell from the tree nodded to itself — it is the one who knows its own pain."
-        </div>
-        <button class="proverb-btn" id="newProverbBtn">✨ Give Me Another Proverb</button>
-      </div>
-    </div>
-
-    <!-- Tab: Contact (Ask Papa) -->
-    <div class="tab-content" id="contact">
-      <div class="card">
-        <h2>💌 Ask Papa Anything</h2>
-        <p>If you have a question, a worry, or just want to share a thought — I'm listening.</p>
-        <form id="contactForm">
-          <input type="text" placeholder="Your name" required>
-          <textarea rows="4" placeholder="What's on your mind, my child?" required></textarea>
-          <button type="submit">📬 Send to Papa</button>
-        </form>
-        <p style="font-size:0.8rem; margin-top:1rem; color:var(--accent2);">* This is a symbolic form — your words go straight to the heart.</p>
-      </div>
-    </div>
-
-    <footer>
-      <p>“A house is made of bricks. A home is made of people who sit together when the day is done.”</p>
-      <p>— Papa, forever the boy under the mango tree 🌳</p>
-    </footer>
-  </div>
-
-  <script>
-    // Tab switching
-    const tabs = document.querySelectorAll('.tab-btn');
-    const contents = document.querySelectorAll('.tab-content');
-
-    tabs.forEach(btn => {
-      btn.addEventListener('click', () => {
-        const tabId = btn.dataset.tab;
-        tabs.forEach(t => t.classList.remove('active'));
-        contents.forEach(c => c.classList.remove('active'));
-        btn.classList.add('active');
-        document.getElementById(tabId).classList.add('active');
-      });
-    });
-
-    // Dark / Light mode toggle
-    const toggle = document.getElementById('themeToggle');
-    const themeIcon = document.getElementById('themeIcon');
-    toggle.addEventListener('click', () => {
-      document.body.classList.toggle('dark');
-      if (document.body.classList.contains('dark')) {
-        themeIcon.textContent = '☀️';
-        toggle.innerHTML = '<span>☀️</span> Light Mode';
-      } else {
-        themeIcon.textContent = '🌙';
-        toggle.innerHTML = '<span>🌙</span> Dark Mode';
-      }
-    });
-
-    // Proverbs array (a mix of African wisdom and original)
-    const proverbs = [
-      "“The lizard that fell from the tree nodded to itself — only it knows its own pain.”",
-      "“A child who is not embraced by the village will burn it down to feel its warmth.”",
-      "“The axe forgets; the tree remembers.”",
-      "“No matter how long the night, the dawn will break.”",
-      "“The same sun that melts wax hardens clay.”",
-      "“If you want to go fast, go alone. If you want to go far, go together.”",
-      "“A grateful heart is a magnet for joy; a complaining heart is a magnet for misery.”",
-      "“Your sadness is a visitor, not a resident. Let it pass.”",
-      "“A meal eaten alone fills the stomach but empties the heart.”",
-      "“Step where I step — one day your children will walk in your footprints.”",
-      "“The rope that binds generations cannot be cut by a single blade.”",
-      "“When you sing while working, the load carries itself.”"
+// ============================================
+// GENERATE DEMO EVENTS – 7+ per town
+// ============================================
+function generateDemoEvents() {
+    const events = [];
+    const categories = EVENT_CATEGORIES.filter(c => c.value !== 'all').map(c => c.value);
+    
+    // Priority towns (West Nile, Northern Uganda) – give extra events
+    const priorityTowns = [
+        'Arua', 'Yumbe', 'Moyo', 'Adjumani', 'Obongi', 'Nebbi', 'Zombo', 'Pakwach',
+        'Rhino Camp', 'Maracha', 'Terego', 'Madi-Okollo', 'Koboko',
+        'Gulu', 'Kitgum', 'Pader', 'Lamwo', 'Agago', 'Nwoya', 'Omoro', 'Amuru',
+        'Lira', 'Apac', 'Dokolo', 'Kole', 'Otuke', 'Oyam', 'Alebtong', 'Amolatar',
+        'Moroto', 'Kotido', 'Kaabong', 'Nakapiripirit', 'Amudat', 'Napak', 'Abim',
+        'Soroti', 'Kumi', 'Katakwi', 'Ngora', 'Serere', 'Bukedea', 'Amuria', 'Kaberamaido'
     ];
-
-    const proverbDisplay = document.getElementById('proverbDisplay');
-    const newProverbBtn = document.getElementById('newProverbBtn');
-
-    function showRandomProverb() {
-      const randomIndex = Math.floor(Math.random() * proverbs.length);
-      proverbDisplay.textContent = proverbs[randomIndex];
-    }
-
-    newProverbBtn.addEventListener('click', showRandomProverb);
-
-    // Contact form submission (symbolic)
-    const form = document.getElementById('contactForm');
-    form.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const name = form.querySelector('input').value.trim();
-      alert(`Thank you, ${name || 'my child'}. Papa has received your words in his heart.`);
-      form.reset();
+    
+    ALL_TOWNS.forEach(town => {
+        // Determine sub-region
+        let subregion = 'Others';
+        for (let [sr, locs] of Object.entries(SUBREGIONS)) {
+            if (locs.includes(town)) { subregion = sr; break; }
+        }
+        
+        // Get venues for this town
+        const venues = SPECIAL_VENUES[town] || [`${town} Community Hall`];
+        
+        // Number of events: 7-12 for priority towns, 7-9 for others
+        const isPriority = priorityTowns.includes(town);
+        const numEvents = isPriority ? (7 + Math.floor(Math.random() * 6)) : (7 + Math.floor(Math.random() * 3));
+        
+        // Ensure diverse categories
+        const shuffledCategories = [...categories].sort(() => Math.random() - 0.5);
+        const townCategories = shuffledCategories.slice(0, Math.min(numEvents, categories.length));
+        
+        // If we need more events than unique categories, cycle through categories
+        while (townCategories.length < numEvents) {
+            townCategories.push(categories[townCategories.length % categories.length]);
+        }
+        
+        // Special categories for specific towns
+        const beachTowns = ['Gabba Beach', 'Adjumani', 'Pakwach', 'Obongi', 'Kalangala', 'Buvuma', 'Jinja'];
+        const mountainTowns = ['Moyo', 'Moroto', 'Kapchorwa', 'Kabale', 'Kisoro', 'Fort Portal', 'Kasese', 'Mbale'];
+        const nileTowns = ['Adjumani', 'Pakwach', 'Jinja', 'Obongi', 'Rhino Camp', 'Moyo'];
+        
+        townCategories.forEach((cat, idx) => {
+            // Override category for special locations
+            let finalCat = cat;
+            if (beachTowns.includes(town) && idx === 0) finalCat = 'beach_life';
+            if (mountainTowns.includes(town) && idx === 1) finalCat = 'mountain_climbing';
+            if (nileTowns.includes(town) && idx === 2) finalCat = 'beach_life';
+            
+            const venue = venues[Math.floor(Math.random() * venues.length)];
+            const price = Math.floor(Math.random() * 200000) + 20000;
+            const capacity = 100 + Math.floor(Math.random() * 500);
+            const sold = Math.floor(Math.random() * capacity);
+            const daysFromNow = Math.floor(Math.random() * 90) - 5;
+            const date = new Date();
+            date.setDate(date.getDate() + daysFromNow);
+            
+            events.push({
+                id: `evt-${town.replace(/[^a-zA-Z]/g,'')}-${idx}`,
+                title: generateEventTitle(finalCat, town),
+                category: finalCat,
+                venue: venue,
+                city: town,
+                subregion: subregion,
+                date: date.toISOString().split('T')[0],
+                time: `${8 + Math.floor(Math.random() * 12)}:00`,
+                price: price,
+                capacity: capacity,
+                ticketsSold: sold
+            });
+        });
     });
-  </script>
-</body>
+    
+    return events;
+}
+
+// ============================================
+// STATE
+// ============================================
+const state = {
+    allEvents: [],
+    filteredEvents: [],
+    category: 'all',
+    city: 'all',
+    subregion: 'all',
+    date: 'all',
+    search: '',
+    sort: 'date',
+    view: 'grid',
+    page: 1,
+    pageSize: 9
+};
+
+// ============================================
+// POPULATE FILTERS
+// ============================================
+function populateFilters() {
+    // Category pills
+    document.getElementById('categoryPills').innerHTML = EVENT_CATEGORIES.map(cat => `
+        <button class="category-pill ${cat.value === 'all' ? 'active' : ''}" data-category="${cat.value}">
+            ${cat.icon} ${cat.label}
+        </button>
+    `).join('');
+    
+    // Category dropdown
+    document.getElementById('categoryFilter').innerHTML = EVENT_CATEGORIES.map(c => 
+        `<option value="${c.value}">${c.icon} ${c.label}</option>`
+    ).join('');
+    
+    // City/Town dropdown
+    const citySelect = document.getElementById('cityFilter');
+    citySelect.innerHTML = '<option value="all">All Locations</option>';
+    ALL_TOWNS.forEach(town => {
+        const option = document.createElement('option');
+        option.value = town;
+        option.textContent = town;
+        citySelect.appendChild(option);
+    });
+    
+    // Sub-region filter
+    const subRegionSelect = document.createElement('select');
+    subRegionSelect.id = 'subRegionFilter';
+    subRegionSelect.className = 'hero-select';
+    subRegionSelect.style.cssText = 'padding:0.75rem 1.25rem;border:none;border-radius:100px;font-size:0.9rem;cursor:pointer;background:white;min-width:150px;';
+    subRegionSelect.innerHTML = '<option value="all">All Sub-Regions</option>';
+    Object.keys(SUBREGIONS).forEach(sr => {
+        const opt = document.createElement('option');
+        opt.value = sr;
+        opt.textContent = sr + ' (' + SUBREGIONS[sr].length + ' towns)';
+        subRegionSelect.appendChild(opt);
+    });
+    document.querySelector('.search-bar').appendChild(subRegionSelect);
+}
+
+// ============================================
+// APPLY FILTERS
+// ============================================
+function applyFilters() {
+    let filtered = [...state.allEvents];
+    
+    if (state.category !== 'all') filtered = filtered.filter(e => e.category === state.category);
+    if (state.city !== 'all') filtered = filtered.filter(e => e.city === state.city);
+    if (state.subregion !== 'all') filtered = filtered.filter(e => e.subregion === state.subregion);
+    
+    if (state.date === 'today') {
+        const today = new Date().toISOString().split('T')[0];
+        filtered = filtered.filter(e => e.date === today);
+    } else if (state.date === 'week') {
+        const weekEnd = new Date();
+        weekEnd.setDate(weekEnd.getDate() + 7);
+        filtered = filtered.filter(e => new Date(e.date) <= weekEnd && new Date(e.date) >= new Date());
+    } else if (state.date === 'month') {
+        const monthEnd = new Date();
+        monthEnd.setDate(monthEnd.getDate() + 30);
+        filtered = filtered.filter(e => new Date(e.date) <= monthEnd && new Date(e.date) >= new Date());
+    }
+    
+    if (state.search) {
+        const q = state.search.toLowerCase();
+        filtered = filtered.filter(e => 
+            e.title.toLowerCase().includes(q) || e.venue.toLowerCase().includes(q) || 
+            e.city.toLowerCase().includes(q) || e.category.toLowerCase().includes(q)
+        );
+    }
+    
+    switch (state.sort) {
+        case 'date': filtered.sort((a, b) => new Date(a.date) - new Date(b.date)); break;
+        case 'popular': filtered.sort((a, b) => (b.ticketsSold / b.capacity) - (a.ticketsSold / a.capacity)); break;
+        case 'price_low': filtered.sort((a, b) => a.price - b.price); break;
+        case 'price_high': filtered.sort((a, b) => b.price - a.price); break;
+    }
+    
+    state.filteredEvents = filtered;
+    state.page = 1;
+    renderEvents();
+}
+
+// ============================================
+// RENDER EVENTS
+// ============================================
+function renderEvents() {
+    const grid = document.getElementById('eventsGrid');
+    const empty = document.getElementById('emptyState');
+    const loadMore = document.getElementById('loadMoreContainer');
+    const pageEvents = state.filteredEvents.slice(0, state.page * state.pageSize);
+    
+    document.getElementById('resultsCount').textContent = state.filteredEvents.length;
+    
+    if (state.filteredEvents.length === 0) {
+        grid.innerHTML = '';
+        empty.style.display = 'block';
+        loadMore.style.display = 'none';
+        document.getElementById('emptyMessage').textContent = 'No events match your search. Try different filters.';
+        document.getElementById('clearFiltersBtn').style.display = 'inline-flex';
+        return;
+    }
+    
+    empty.style.display = 'none';
+    document.getElementById('clearFiltersBtn').style.display = 'none';
+    grid.className = `events-grid ${state.view === 'list' ? 'list-view' : ''}`;
+    
+    grid.innerHTML = pageEvents.map((event, idx) => {
+        const d = new Date(event.date);
+        const today = new Date(); today.setHours(0,0,0,0);
+        const isToday = event.date === today.toISOString().split('T')[0];
+        const remaining = event.capacity - event.ticketsSold;
+        const isSellingFast = remaining <= 20 && remaining > 0;
+        
+        let badgeClass = 'badge-upcoming', badgeText = 'Upcoming';
+        if (isToday) { badgeClass = 'badge-today'; badgeText = 'Today!'; }
+        else if (isSellingFast) { badgeClass = 'badge-selling-fast'; badgeText = 'Selling Fast!'; }
+        
+        return `
+            <div class="event-card" onclick="window.location.href='event-details.html?event=${event.id}'" style="animation-delay:${idx * 0.03}s">
+                <div class="event-card-image">
+                    <div class="bg" style="background:${gradients[idx % gradients.length]};"></div>
+                    <div class="event-card-overlay">
+                        <span class="event-card-category">${EVENT_CATEGORIES.find(c => c.value === event.category)?.icon || '📌'} ${event.category.replace(/_/g, ' ')}</span>
+                    </div>
+                    ${badgeText ? `<span class="event-card-badge ${badgeClass}">${badgeText}</span>` : ''}
+                    <div class="event-card-date">
+                        <span class="date-day">${d.getDate()}</span>
+                        <span class="date-month">${d.toLocaleString('en-US',{month:'short'})}</span>
+                    </div>
+                </div>
+                <div class="event-card-body">
+                    <h3>${event.title}</h3>
+                    <div class="event-meta">
+                        <div class="event-meta-item"><i class="fas fa-map-marker-alt"></i><span>${event.venue}, ${event.city}</span></div>
+                        <div class="event-meta-item"><i class="fas fa-clock"></i><span>${event.time}</span></div>
+                        <div class="event-meta-item"><i class="fas fa-map"></i><span>${event.subregion} Region</span></div>
+                    </div>
+                </div>
+                <div class="event-card-footer">
+                    <div class="event-price">UGX ${event.price.toLocaleString()} <small>from</small></div>
+                    ${remaining <= 20 && remaining > 0 ? `<span class="seats-left urgent">Only ${remaining} left!</span>` : remaining <= 50 ? `<span class="seats-left ok">${remaining} remaining</span>` : ''}
+                </div>
+            </div>`;
+    }).join('');
+    
+    loadMore.style.display = pageEvents.length < state.filteredEvents.length ? 'block' : 'none';
+}
+
+// ============================================
+// EVENT LISTENERS
+// ============================================
+function setupListeners() {
+    document.getElementById('searchInput').addEventListener('input', debounce(function(e) {
+        state.search = e.target.value; applyFilters();
+    }, 300));
+    
+    document.getElementById('categoryPills').addEventListener('click', function(e) {
+        const pill = e.target.closest('.category-pill');
+        if (!pill) return;
+        document.querySelectorAll('.category-pill').forEach(p => p.classList.remove('active'));
+        pill.classList.add('active');
+        state.category = pill.dataset.category;
+        document.getElementById('categoryFilter').value = state.category;
+        applyFilters();
+    });
+    
+    document.getElementById('categoryFilter').addEventListener('change', function(e) {
+        state.category = e.target.value;
+        document.querySelectorAll('.category-pill').forEach(p => p.classList.remove('active'));
+        const activePill = document.querySelector(`.category-pill[data-category="${state.category}"]`);
+        if (activePill) activePill.classList.add('active');
+        applyFilters();
+    });
+    
+    document.getElementById('cityFilter').addEventListener('change', function(e) { state.city = e.target.value; applyFilters(); });
+    document.getElementById('dateFilter').addEventListener('change', function(e) { state.date = e.target.value; applyFilters(); });
+    document.getElementById('sortFilter').addEventListener('change', function(e) { state.sort = e.target.value; applyFilters(); });
+    
+    document.getElementById('subRegionFilter')?.addEventListener('change', function(e) { state.subregion = e.target.value; applyFilters(); });
+    
+    document.querySelectorAll('.view-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            document.querySelectorAll('.view-btn').forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+            state.view = this.dataset.view;
+            renderEvents();
+        });
+    });
+    
+    document.getElementById('loadMoreBtn').addEventListener('click', () => { state.page++; renderEvents(); });
+    
+    document.getElementById('clearFiltersBtn').addEventListener('click', function() {
+        state.category = 'all'; state.city = 'all'; state.subregion = 'all'; state.date = 'all'; state.search = '';
+        document.getElementById('searchInput').value = '';
+        document.getElementById('categoryFilter').value = 'all';
+        document.getElementById('cityFilter').value = 'all';
+        document.getElementById('dateFilter').value = 'all';
+        if (document.getElementById('subRegionFilter')) document.getElementById('subRegionFilter').value = 'all';
+        document.querySelectorAll('.category-pill').forEach(p => p.classList.remove('active'));
+        document.querySelector('[data-category="all"]')?.classList.add('active');
+        applyFilters();
+    });
+    
+    document.getElementById('mobileMenuBtn').addEventListener('click', () => document.getElementById('navLinks').classList.toggle('open'));
+    window.addEventListener('scroll', () => document.getElementById('header').classList.toggle('scrolled', window.scrollY > 50));
+}
+
+function debounce(func, wait) {
+    let timeout;
+    return function(...args) { clearTimeout(timeout); timeout = setTimeout(() => func.apply(this, args), wait); };
+}
+
+// ============================================
+// INIT
+// ============================================
+function init() {
+    state.allEvents = generateDemoEvents();
+    populateFilters();
+    applyFilters();
+    setupListeners();
+}
+
+document.addEventListener('DOMContentLoaded', init);
+</body> 
+
 </html>
 </body>
 </html>
