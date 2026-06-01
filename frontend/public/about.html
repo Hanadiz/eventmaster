@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="About EventMaster Uganda - The leading event ticket platform in Uganda">
+    <meta name="theme-color" content="#4CAF50">
+    <link rel="manifest" href="../manifest.json">
+    <title>About Us – EventMaster UG</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4CAF50;
+            --primary-dark: #388E3C;
+            --primary-light: #E8F5E9;
+            --secondary: #1A1A2E;
+            --bg: #F5F7FA;
+            --surface: #FFFFFF;
+            --text: #1A1A2E;
+            --text-secondary: #6B7280;
+            --text-muted: #9CA3AF;
+            --border: #E5E7EB;
+            --shadow-sm: 0 2px 8px rgba(0,0,0,0.06);
+            --shadow-md: 0 4px 20px rgba(0,0,0,0.1);
+            --shadow-lg: 0 10px 40px rgba(0,0,0,0.15);
+            --radius-sm: 8px;
+            --radius: 12px;
+            --radius-lg: 16px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 1.5rem; }
+
+        /* Header */
+        .header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+        }
+        .header.scrolled { box-shadow: var(--shadow-md); }
+        .header-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.75rem 0;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+            color: var(--text);
+            font-weight: 800;
+            font-size: 1.2rem;
+        }
+        .logo-icon { font-size: 1.5rem; }
+        .nav-links { display: flex; align-items: center; gap: 1.5rem; }
+        .nav-link {
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: var(--transition);
+            position: relative;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: var(--transition);
+        }
+        .nav-link:hover, .nav-link.active { color: var(--primary); }
+        .nav-link:hover::after, .nav-link.active::after { width: 100%; }
+        .btn {
+            padding: 0.55rem 1.25rem;
+            border-radius: 100px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            font-size: 0.9rem;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+            font-family: inherit;
+        }
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--border);
+            color: var(--text);
+        }
+        .btn-outline:hover { border-color: var(--primary); color: var(--primary); }
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 4px 15px rgba(76,175,80,0.3);
+        }
+        .btn-primary:hover { background: var(--primary-dark); }
+        .mobile-menu-btn { display: none; background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--text); }
+
+        /* Hero */
+        .page-hero {
+            background: linear-gradient(135deg, #1A1A2E, #16213E);
+            color: white;
+            padding: 4rem 0;
+            text-align: center;
+        }
+        .page-hero h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+        }
+        .page-hero p {
+            color: rgba(255,255,255,0.7);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Section */
+        .section {
+            padding: 4rem 0;
+        }
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        .section-title h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        .section-title p {
+            color: var(--text-secondary);
+        }
+
+        /* Mission */
+        .mission-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+        .mission-text h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        .mission-text p {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            line-height: 1.8;
+        }
+        .mission-image {
+            background: linear-gradient(135deg, var(--primary-light), #C8E6C9);
+            border-radius: var(--radius-lg);
+            height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 5rem;
+        }
+
+        /* Stats */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+        }
+        .stat-card {
+            background: var(--surface);
+            padding: 2rem;
+            border-radius: var(--radius-lg);
+            text-align: center;
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+        }
+        .stat-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-lg); }
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--primary);
+        }
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
+
+        /* Values */
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+        .value-card {
+            background: var(--surface);
+            padding: 2rem;
+            border-radius: var(--radius-lg);
+            text-align: center;
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+        }
+        .value-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+        .value-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        .value-card h4 { margin-bottom: 0.5rem; }
+
+        /* Team */
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+        }
+        .team-card {
+            background: var(--surface);
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: var(--shadow-sm);
+        }
+        .team-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: var(--primary-light);
+            margin: 0 auto 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+        }
+        .team-card h4 { font-size: 1rem; margin-bottom: 0.25rem; }
+        .team-card .role { color: var(--primary); font-weight: 600; font-size: 0.85rem; }
+        .team-card .bio { color: var(--text-secondary); font-size: 0.8rem; margin-top: 0.5rem; }
+
+        /* CTA */
+        .cta-section {
+            background: linear-gradient(135deg, var(--primary), #2E7D32);
+            color: white;
+            padding: 4rem 0;
+            text-align: center;
+        }
+        .cta-section h2 { font-size: 2rem; margin-bottom: 1rem; }
+        .cta-section p { opacity: 0.9; margin-bottom: 2rem; }
+        .btn-light {
+            background: white;
+            color: var(--primary);
+            padding: 0.8rem 2rem;
+            border-radius: 100px;
+            font-weight: 700;
+        }
+        .btn-light:hover { background: #f0f0f0; transform: translateY(-2px); }
+
+        /* Footer */
+        .footer {
+            background: var(--secondary);
+            color: white;
+            padding: 3rem 0 0;
+        }
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 2rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        .footer h4 { margin-bottom: 1rem; }
+        .footer a { color: rgba(255,255,255,0.6); text-decoration: none; display: block; padding: 0.3rem 0; font-size: 0.9rem; }
+        .footer a:hover { color: var(--primary); }
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            padding: 1.5rem 0;
+            color: rgba(255,255,255,0.4);
+            font-size: 0.85rem;
+        }
+
+        @media (max-width: 768px) {
+            .mission-grid, .values-grid, .team-grid { grid-template-columns: 1fr; }
+            .stats-grid { grid-template-columns: 1fr 1fr; }
+            .nav-links { display: none; }
+            .nav-links.open {
+                display: flex;
+                flex-direction: column;
+                position: absolute;
+                top: 100%;
+                left: 0; right: 0;
+                background: white;
+                padding: 1.5rem;
+                box-shadow: var(--shadow-lg);
+            }
+            .mobile-menu-btn { display: block; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header" id="header">
+        <div class="container header-inner">
+            <a href="index.html" class="logo">
+                <span class="logo-icon">🎫</span>
+                <span>EventMaster UG</span>
+            </a>
+            <button class="mobile-menu-btn" id="mobileMenuBtn"><i class="fas fa-bars"></i></button>
+            <nav class="nav-links" id="navLinks">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="events.html" class="nav-link">Events</a>
+                <a href="about.html" class="nav-link active">About</a>
+                <a href="contact.html" class="nav-link">Contact</a>
+                <a href="../auth/login.html" class="btn btn-outline btn-sm">Sign In</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero -->
+    <section class="page-hero">
+        <div class="container">
+            <h1>About EventMaster Uganda</h1>
+            <p>We're on a mission to transform how Uganda discovers and experiences live events.</p>
+        </div>
+    </section>
+
+    <!-- Mission -->
+    <section class="section">
+        <div class="container">
+            <div class="mission-grid">
+                <div class="mission-text">
+                    <h3>Our Story</h3>
+                    <p>
+                        Founded in 2024, EventMaster Uganda was born out of a simple frustration: finding and booking tickets for events in Uganda was too complicated. 
+                        From sold‑out concerts at the Kampala Serena to local workshops in Gulu, we saw a need for a platform that makes event discovery and ticketing seamless.
+                    </p>
+                    <p>
+                        Today, we serve thousands of event‑goers and hundreds of organizers across all four regions of Uganda. Our platform supports everything from small community
+                        gatherings to major international conferences, all with the convenience of mobile money payments and instant digital tickets.
+                    </p>
+                </div>
+                <div class="mission-image">
+                    🎫
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats -->
+    <section class="section" style="background: white;">
+        <div class="container">
+            <div class="section-title">
+                <h2>By the Numbers</h2>
+                <p>Our impact across Uganda</p>
+            </div>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">150+</div>
+                    <div class="stat-label">Monthly Events</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">25,000+</div>
+                    <div class="stat-label">Happy Attendees</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">135</div>
+                    <div class="stat-label">Districts Covered</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">98%</div>
+                    <div class="stat-label">Customer Satisfaction</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Values -->
+    <section class="section">
+        <div class="container">
+            <div class="section-title">
+                <h2>Our Values</h2>
+                <p>What drives us every day</p>
+            </div>
+            <div class="values-grid">
+                <div class="value-card">
+                    <div class="value-icon">🇺🇬</div>
+                    <h4>Local First</h4>
+                    <p>Built for Uganda, by Ugandans. We understand the local market, payment methods, and event culture.</p>
+                </div>
+                <div class="value-card">
+                    <div class="value-icon">🔒</div>
+                    <h4>Trust & Security</h4>
+                    <p>Your tickets and payments are safe with us. We partner with MTN and Airtel for secure mobile money transactions.</p>
+                </div>
+                <div class="value-card">
+                    <div class="value-icon">⚡</div>
+                    <h4>Speed & Reliability</h4>
+                    <p>Instant ticket delivery via email, SMS, and WhatsApp. Offline mode ensures you never lose your receipt.</p>
+                </div>
+                <div class="value-card">
+                    <div class="value-icon">🌍</div>
+                    <h4>Accessibility</h4>
+                    <p>Events in all 135+ districts. No credit card? No problem – pay with MoMo or Airtel Money.</p>
+                </div>
+                <div class="value-card">
+                    <div class="value-icon">🤝</div>
+                    <h4>Community</h4>
+                    <p>We empower local organizers with free tools to create, manage, and promote their events.</p>
+                </div>
+                <div class="value-card">
+                    <div class="value-icon">💡</div>
+                    <h4>Innovation</h4>
+                    <p>Constantly improving – from interactive seat maps to QR check‑in, we bring the latest tech to Ugandan events.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team (placeholder) -->
+    <section class="section" style="background: white;">
+        <div class="container">
+            <div class="section-title">
+                <h2>Our Team</h2>
+                <p>Passionate people behind the platform</p>
+            </div>
+            <div class="team-grid">
+                <div class="team-card">
+                    <div class="team-avatar">👩‍💼</div>
+                    <h4>Brenda Auma</h4>
+                    <p class="role">CEO & Co‑Founder</p>
+                    <p class="bio">Former event organizer with 10+ years experience in Uganda's entertainment industry.</p>
+                </div>
+                <div class="team-card">
+                    <div class="team-avatar">👨‍💻</div>
+                    <h4>David Ssemwogerere</h4>
+                    <p class="role">CTO</p>
+                    <p class="bio">Full‑stack developer passionate about building tech solutions for Africa.</p>
+                </div>
+                <div class="team-card">
+                    <div class="team-avatar">👩‍🎨</div>
+                    <h4>Faith Namukasa</h4>
+                    <p class="role">Head of Design</p>
+                    <p class="bio">UX designer creating beautiful, intuitive experiences for all users.</p>
+                </div>
+                <div class="team-card">
+                    <div class="team-avatar">👨‍💼</div>
+                    <h4>Michael Kato</h4>
+                    <p class="role">Operations Manager</p>
+                    <p class="bio">Ensuring smooth event operations and customer support across Uganda.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-section">
+        <div class="container">
+            <h2>Ready to experience the best events in Uganda?</h2>
+            <p>Join thousands of happy attendees and organizers on EventMaster UG.</p>
+            <a href="events.html" class="btn btn-light btn-lg">Browse Events</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div>
+                    <h4>🎫 EventMaster UG</h4>
+                    <p style="color:rgba(255,255,255,0.6);">Your gateway to the best events across Uganda.</p>
+                </div>
+                <div>
+                    <h4>Quick Links</h4>
+                    <a href="index.html">Home</a>
+                    <a href="events.html">Events</a>
+                    <a href="about.html">About</a>
+                </div>
+                <div>
+                    <h4>Support</h4>
+                    <a href="contact.html">Contact</a>
+                    <a href="faq.html">FAQ</a>
+                </div>
+                <div>
+                    <h4>Contact</h4>
+                    <p style="color:rgba(255,255,255,0.6);">📞 +256 700 123456</p>
+                    <p style="color:rgba(255,255,255,0.6);">✉️ info@eventmaster.ug</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 EventMaster Uganda. All rights reserved.</p>
+                <span>📱 MoMo | 📱 Airtel | 💳 Cards</span>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu
+        document.getElementById('mobileMenuBtn').addEventListener('click', function() {
+            document.getElementById('navLinks').classList.toggle('open');
+        });
+        
+        // Header scroll effect
+        window.addEventListener('scroll', function() {
+            document.getElementById('header').classList.toggle('scrolled', window.scrollY > 50);
+        });
+    </script>
+</body>
+</html>
