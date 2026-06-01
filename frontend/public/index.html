@@ -1,1 +1,908 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="EventMaster Uganda - Discover and book tickets for the best events across Uganda">
+    <meta name="theme-color" content="#4CAF50">
+    <link rel="manifest" href="../manifest.json">
+    <title>EventMaster UG - Discover Events in Uganda</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4CAF50;
+            --primary-dark: #388E3C;
+            --primary-light: #E8F5E9;
+            --secondary: #1A1A2E;
+            --accent: #FF6F00;
+            --danger: #F44336;
+            --warning: #FF9800;
+            --info: #2196F3;
+            --bg: #F5F7FA;
+            --surface: #FFFFFF;
+            --text: #1A1A2E;
+            --text-secondary: #6B7280;
+            --text-muted: #9CA3AF;
+            --border: #E5E7EB;
+            --shadow-sm: 0 2px 8px rgba(0,0,0,0.06);
+            --shadow-md: 0 4px 20px rgba(0,0,0,0.1);
+            --shadow-lg: 0 10px 40px rgba(0,0,0,0.15);
+            --shadow-xl: 0 20px 60px rgba(0,0,0,0.2);
+            --radius-sm: 8px;
+            --radius: 12px;
+            --radius-lg: 16px;
+            --radius-xl: 20px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; }
+        
+        /* Header */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            transition: var(--transition);
+        }
+        
+        .header.scrolled { box-shadow: var(--shadow-md); }
+        
+        .header-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.75rem 0;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+            color: var(--text);
+            font-weight: 800;
+            font-size: 1.3rem;
+        }
+        
+        .logo-icon { font-size: 1.8rem; }
+        
+        .nav-links { display: flex; align-items: center; gap: 2rem; }
+        
+        .nav-link {
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: var(--transition);
+            position: relative;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: var(--transition);
+        }
+        
+        .nav-link:hover { color: var(--primary); }
+        .nav-link:hover::after { width: 100%; }
+        
+        .btn {
+            padding: 0.65rem 1.5rem;
+            border-radius: 100px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            font-size: 0.9rem;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+            font-family: inherit;
+        }
+        
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 4px 15px rgba(76,175,80,0.3);
+        }
+        
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(76,175,80,0.4);
+        }
+        
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--border);
+            color: var(--text);
+        }
+        
+        .btn-outline:hover { border-color: var(--primary); color: var(--primary); }
+        
+        .btn-light {
+            background: white;
+            color: var(--primary);
+        }
+        
+        .btn-lg { padding: 0.85rem 2rem; font-size: 1rem; }
+        
+        .btn-sm { padding: 0.45rem 1rem; font-size: 0.8rem; }
+        
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text);
+        }
+        
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            background: linear-gradient(135deg, #1A1A2E 0%, #16213E 40%, #0F3460 100%);
+            position: relative;
+            overflow: hidden;
+            padding-top: 80px;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, rgba(76,175,80,0.1), transparent);
+            border-radius: 50%;
+        }
+        
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: -30%;
+            left: -10%;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(255,111,0,0.08), transparent);
+            border-radius: 50%;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            color: white;
+            max-width: 650px;
+        }
+        
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            padding: 0.5rem 1.25rem;
+            border-radius: 100px;
+            font-size: 0.85rem;
+            margin-bottom: 1.5rem;
+            backdrop-filter: blur(10px);
+        }
+        
+        .pulse-dot {
+            width: 8px; height: 8px;
+            background: #4CAF50;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.8); }
+        }
+        
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 800;
+            line-height: 1.15;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, #fff 0%, #A5D6A7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .hero-subtitle {
+            font-size: 1.15rem;
+            color: rgba(255,255,255,0.75);
+            line-height: 1.7;
+            margin-bottom: 2rem;
+        }
+        
+        .hero-search {
+            display: flex;
+            gap: 0.75rem;
+            background: rgba(255,255,255,0.1);
+            padding: 0.5rem;
+            border-radius: 100px;
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.2);
+            margin-bottom: 2.5rem;
+            max-width: 550px;
+        }
+        
+        .hero-search input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            color: white;
+            padding: 0.75rem 1.25rem;
+            font-size: 1rem;
+            outline: none;
+        }
+        
+        .hero-search input::placeholder { color: rgba(255,255,255,0.5); }
+        
+        .hero-stats {
+            display: flex;
+            gap: 3rem;
+        }
+        
+        .hero-stat { text-align: center; }
+        
+        .hero-stat-number {
+            display: block;
+            font-size: 2rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #4CAF50, #8BC34A);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .hero-stat-label {
+            font-size: 0.85rem;
+            color: rgba(255,255,255,0.5);
+        }
+        
+        .hero-visual {
+            position: absolute;
+            right: 5%;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 1;
+            width: 500px;
+            height: 500px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .floating-card {
+            position: absolute;
+            background: white;
+            border-radius: var(--radius);
+            padding: 1rem;
+            box-shadow: var(--shadow-xl);
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        .floating-card.card-1 {
+            top: 10%;
+            right: 20%;
+            animation-delay: 0s;
+        }
+        
+        .floating-card.card-2 {
+            bottom: 20%;
+            right: 10%;
+            animation-delay: -2s;
+        }
+        
+        .floating-card.card-3 {
+            top: 40%;
+            right: 30%;
+            animation-delay: -4s;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        /* Categories */
+        .categories {
+            padding: 5rem 0;
+            background: white;
+        }
+        
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .section-header h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+        }
+        
+        .section-header p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+        
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .category-card {
+            background: var(--bg);
+            border-radius: var(--radius-lg);
+            padding: 2rem 1.5rem;
+            text-align: center;
+            text-decoration: none;
+            color: var(--text);
+            transition: var(--transition);
+            border: 2px solid transparent;
+        }
+        
+        .category-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .category-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+        
+        .category-name {
+            font-weight: 600;
+            font-size: 1rem;
+        }
+        
+        .category-count {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-top: 0.25rem;
+        }
+        
+        /* Featured Events */
+        .featured-events {
+            padding: 5rem 0;
+            background: var(--bg);
+        }
+        
+        .events-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+        
+        .event-card {
+            background: white;
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+            cursor: pointer;
+        }
+        
+        .event-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-xl);
+        }
+        
+        .event-card-image {
+            position: relative;
+            height: 200px;
+            overflow: hidden;
+        }
+        
+        .event-card-bg {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+        
+        .event-card:hover .event-card-bg { transform: scale(1.05); }
+        
+        .event-card-gradient {
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            height: 80px;
+            background: linear-gradient(transparent, rgba(0,0,0,0.7));
+        }
+        
+        .event-card-badge {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            background: var(--primary);
+            color: white;
+            padding: 0.35rem 1rem;
+            border-radius: 100px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        
+        .event-card-date {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: white;
+            padding: 0.5rem;
+            border-radius: var(--radius-sm);
+            text-align: center;
+            box-shadow: var(--shadow-md);
+        }
+        
+        .event-date-day {
+            display: block;
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: var(--primary);
+            line-height: 1;
+        }
+        
+        .event-date-month {
+            font-size: 0.65rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+        
+        .event-card-body {
+            padding: 1.5rem;
+        }
+        
+        .event-card-body h3 {
+            font-size: 1.15rem;
+            margin-bottom: 0.75rem;
+        }
+        
+        .event-card-meta {
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+            margin-bottom: 1rem;
+        }
+        
+        .event-meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+        
+        .event-card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 1.5rem;
+            border-top: 1px solid var(--border);
+        }
+        
+        .event-price {
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: var(--primary);
+        }
+        
+        /* How It Works */
+        .how-it-works {
+            padding: 5rem 0;
+            background: white;
+        }
+        
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .step-card {
+            text-align: center;
+            padding: 2rem;
+        }
+        
+        .step-number {
+            width: 60px; height: 60px;
+            background: var(--primary-light);
+            color: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 800;
+            margin: 0 auto 1.5rem;
+        }
+        
+        .step-card h3 {
+            margin-bottom: 0.75rem;
+        }
+        
+        .step-card p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+        
+        /* CTA */
+        .cta-section {
+            padding: 5rem 0;
+            background: linear-gradient(135deg, var(--primary), #2E7D32);
+            color: white;
+            text-align: center;
+        }
+        
+        .cta-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .cta-section p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+        }
+        
+        /* Footer */
+        .footer {
+            background: var(--secondary);
+            color: white;
+            padding: 4rem 0 0;
+        }
+        
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 2rem;
+            padding-bottom: 3rem;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .footer h4 {
+            color: white;
+            margin-bottom: 1.25rem;
+        }
+        
+        .footer p {
+            color: rgba(255,255,255,0.6);
+            font-size: 0.9rem;
+            line-height: 1.7;
+        }
+        
+        .footer a {
+            display: block;
+            color: rgba(255,255,255,0.6);
+            text-decoration: none;
+            padding: 0.35rem 0;
+            font-size: 0.9rem;
+            transition: var(--transition);
+        }
+        
+        .footer a:hover { color: var(--primary); padding-left: 5px; }
+        
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 0;
+            color: rgba(255,255,255,0.4);
+            font-size: 0.85rem;
+        }
+        
+        .payment-icons { display: flex; gap: 0.75rem; align-items: center; }
+        
+        .payment-icons img { height: 24px; opacity: 0.8; }
+        
+        /* Mobile */
+        @media (max-width: 1024px) {
+            .hero-visual { display: none; }
+            .hero-title { font-size: 2.5rem; }
+        }
+        
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .nav-links.open {
+                display: flex;
+                flex-direction: column;
+                position: absolute;
+                top: 100%;
+                left: 0; right: 0;
+                background: white;
+                padding: 1.5rem;
+                box-shadow: var(--shadow-lg);
+                gap: 1rem;
+            }
+            
+            .mobile-menu-btn { display: block; }
+            
+            .hero { min-height: auto; padding: 120px 0 60px; }
+            .hero-title { font-size: 2rem; }
+            .hero-stats { gap: 1.5rem; flex-wrap: wrap; }
+            .hero-search { flex-direction: column; border-radius: var(--radius); }
+            
+            .footer-grid { grid-template-columns: 1fr 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header" id="header">
+        <div class="container header-inner">
+            <a href="index.html" class="logo">
+                <span class="logo-icon">🎫</span>
+                <span>EventMaster UG</span>
+            </a>
+            
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <i class="fas fa-bars"></i>
+            </button>
+            
+            <nav class="nav-links" id="navLinks">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="events.html" class="nav-link">Events</a>
+                <a href="about.html" class="nav-link">About</a>
+                <a href="contact.html" class="nav-link">Contact</a>
+                <a href="../auth/login.html" class="btn btn-outline btn-sm">Sign In</a>
+                <a href="../auth/register.html" class="btn btn-primary btn-sm">Get Started</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-badge">
+                    <span class="pulse-dot"></span>
+                    Live Events Across Uganda
+                </div>
+                <h1 class="hero-title">Discover Amazing Events in Uganda</h1>
+                <p class="hero-subtitle">
+                    From electrifying concerts at Kampala Serena to tech conferences 
+                    at Speke Resort – find, book, and attend the best events across Uganda 
+                    with MTN MoMo & Airtel Money.
+                </p>
+                <div class="hero-search">
+                    <input type="text" placeholder="Search events, artists, venues...">
+                    <button class="btn btn-light btn-lg">🔍 Search</button>
+                </div>
+                <div class="hero-stats">
+                    <div class="hero-stat">
+                        <span class="hero-stat-number">150+</span>
+                        <span class="hero-stat-label">Events Monthly</span>
+                    </div>
+                    <div class="hero-stat">
+                        <span class="hero-stat-number">25K+</span>
+                        <span class="hero-stat-label">Happy Attendees</span>
+                    </div>
+                    <div class="hero-stat">
+                        <span class="hero-stat-number">15+</span>
+                        <span class="hero-stat-label">Venues in UG</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="hero-visual">
+            <div class="floating-card card-1">🎵 Concert Tickets</div>
+            <div class="floating-card card-2">💼 Conference Pass</div>
+            <div class="floating-card card-3">🎉 Festival Entry</div>
+        </div>
+    </section>
+
+    <!-- Categories -->
+    <section class="categories">
+        <div class="container">
+            <div class="section-header">
+                <h2>Browse by Category</h2>
+                <p>Find the perfect event for you</p>
+            </div>
+            <div class="categories-grid" id="categoriesGrid"></div>
+        </div>
+    </section>
+
+    <!-- Featured Events -->
+    <section class="featured-events">
+        <div class="container">
+            <div class="section-header">
+                <h2>🔥 Featured Events</h2>
+                <p>Don't miss out on these amazing experiences</p>
+            </div>
+            <div class="events-grid" id="featuredEvents"></div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="how-it-works">
+        <div class="container">
+            <div class="section-header">
+                <h2>How It Works</h2>
+                <p>Book your tickets in 4 easy steps</p>
+            </div>
+            <div class="steps-grid">
+                <div class="step-card">
+                    <div class="step-number">1</div>
+                    <h3>Find Your Event</h3>
+                    <p>Browse hundreds of events across Uganda and find the perfect one for you.</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">2</div>
+                    <h3>Choose Your Seats</h3>
+                    <p>Use our interactive seat map to pick your preferred spot or table.</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">3</div>
+                    <h3>Pay Securely</h3>
+                    <p>Pay with MTN MoMo, Airtel Money, or card and receive tickets instantly.</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">4</div>
+                    <h3>Attend & Enjoy</h3>
+                    <p>Show your QR code at the venue and enjoy the event!</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-section">
+        <div class="container">
+            <h2>Ready to Host Your Event?</h2>
+            <p>Join thousands of event organizers using EventMaster UG</p>
+            <a href="../auth/register.html" class="btn btn-light btn-lg">Create Your Event →</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div>
+                    <h4>🎫 EventMaster UG</h4>
+                    <p>Your gateway to the best events across Uganda. Discover, book, and attend amazing experiences.</p>
+                </div>
+                <div>
+                    <h4>Quick Links</h4>
+                    <a href="events.html">Browse Events</a>
+                    <a href="about.html">About Us</a>
+                    <a href="contact.html">Contact</a>
+                    <a href="faq.html">FAQ</a>
+                </div>
+                <div>
+                    <h4>Support</h4>
+                    <a href="terms.html">Terms of Service</a>
+                    <a href="privacy.html">Privacy Policy</a>
+                    <a href="#">Help Center</a>
+                </div>
+                <div>
+                    <h4>Contact</h4>
+                    <p>📞 +256 700 123456</p>
+                    <p>✉️ info@eventmaster.ug</p>
+                    <p>📍 Kampala, Uganda</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 EventMaster Uganda. All rights reserved.</p>
+                <div class="payment-icons">
+                    <span>We accept:</span>
+                    <span>📱 MoMo</span>
+                    <span>📱 Airtel</span>
+                    <span>💳 Cards</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        document.getElementById('mobileMenuBtn').addEventListener('click', function() {
+            document.getElementById('navLinks').classList.toggle('open');
+        });
+
+        // Header scroll effect
+        window.addEventListener('scroll', function() {
+            const header = document.getElementById('header');
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // Render categories
+        const categories = [
+            { icon: '🎵', name: 'Concerts', count: 45 },
+            { icon: '💼', name: 'Conferences', count: 32 },
+            { icon: '🎭', name: 'Comedy', count: 18 },
+            { icon: '🎉', name: 'Festivals', count: 24 },
+            { icon: '⚽', name: 'Sports', count: 15 },
+            { icon: '📚', name: 'Workshops', count: 28 },
+        ];
+
+        document.getElementById('categoriesGrid').innerHTML = categories.map(c => `
+            <a href="events.html?category=${c.name.toLowerCase()}" class="category-card">
+                <span class="category-icon">${c.icon}</span>
+                <span class="category-name">${c.name}</span>
+                <span class="category-count">${c.count} Events</span>
+            </a>
+        `).join('');
+
+        // Render featured events
+        const events = [
+            { title: 'Kampala Jazz Festival 2026', venue: 'Kampala Serena Hotel', city: 'Kampala', date: '2026-06-15', time: '18:00', price: 75000, category: 'Concert', gradient: 'linear-gradient(135deg, #667eea, #764ba2)' },
+            { title: 'Tech Conference Uganda 2026', venue: 'Speke Resort Munyonyo', city: 'Kampala', date: '2026-07-20', time: '08:00', price: 150000, category: 'Conference', gradient: 'linear-gradient(135deg, #4facfe, #00f2fe)' },
+            { title: 'Comedy Night with Salvador', venue: 'National Theatre', city: 'Kampala', date: '2026-05-28', time: '19:00', price: 50000, category: 'Comedy', gradient: 'linear-gradient(135deg, #f093fb, #f5576c)' },
+        ];
+
+        document.getElementById('featuredEvents').innerHTML = events.map(e => {
+            const d = new Date(e.date);
+            return `
+                <div class="event-card" onclick="window.location.href='event-details.html?event=${e.title}'">
+                    <div class="event-card-image">
+                        <div style="width:100%;height:100%;background:${e.gradient};"></div>
+                        <div class="event-card-gradient"></div>
+                        <span class="event-card-badge">${e.category}</span>
+                        <div class="event-card-date">
+                            <span class="event-date-day">${d.getDate()}</span>
+                            <span class="event-date-month">${d.toLocaleString('en-US',{month:'short'})}</span>
+                        </div>
+                    </div>
+                    <div class="event-card-body">
+                        <h3>${e.title}</h3>
+                        <div class="event-card-meta">
+                            <div class="event-meta-item">📍 ${e.venue}, ${e.city}</div>
+                            <div class="event-meta-item">🕐 ${e.time}</div>
+                        </div>
+                    </div>
+                    <div class="event-card-footer">
+                        <span class="event-price">UGX ${e.price.toLocaleString()}</span>
+                        <button class="btn btn-primary btn-sm">Book Now</button>
+                    </div>
+                </div>
+            `;
+        }).join('');
+
+        // Service worker registration
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('../service-worker.js');
+        }
+    </script>
+</body>
+</html>
